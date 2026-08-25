@@ -1,5 +1,9 @@
-function Header() {
-  return <header>Coffee Shop</header>
+type HeaderProps = {
+  title: string
+}
+
+function Header({ title }: HeaderProps) {
+  return <header>{title}</header>
 }
 
 export default Header
