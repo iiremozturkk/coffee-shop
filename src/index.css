@@ -17,3 +17,42 @@ body {
 button {
   font: inherit;
 }
+
+.categories-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px 32px;
+}
+
+.categories-section h2 {
+  margin: 0 0 32px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 36px;
+  color: #2b1d17;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .categories-section {
+    padding: 56px 24px;
+  }
+
+  .categories-section h2 {
+    font-size: 30px;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+}
