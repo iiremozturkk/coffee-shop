@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <Header title="Coffee Shop" />
+      <Header title="Coffee Shop" cartCount={0} />
 
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
