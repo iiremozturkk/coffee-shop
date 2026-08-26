@@ -1,3 +1,4 @@
+import Hero from './components/Hero/Hero'
 import { useEffect } from 'react'
 import Header from './components/Header/Header'
 import ProductCard from './components/ProductCard/ProductCard'
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
       <Header title="Coffee Shop" cartCount={0} />
+      <Hero />
 
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />

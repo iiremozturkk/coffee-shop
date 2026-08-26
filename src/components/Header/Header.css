@@ -2,28 +2,47 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px;
 }
 
 .header-logo {
-  font-size: 24px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
   font-weight: 700;
+  color: #6b4423;
+  letter-spacing: -0.5px;
 }
 
 .header-nav {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 32px;
+}
+
+.header-nav span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2b1d17;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.header-nav span:hover {
+  color: #b7793e;
 }
 
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 18px;
+    padding: 20px 24px;
   }
 
   .header-nav {
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 12px 20px;
   }
 }
