@@ -1,0 +1,27 @@
+<svg width="100%" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Colombia Filtre Kahve</title>
+<desc>Koyu zemin üzerinde güneş ışını rozetli, dağ silüetli filtre kahve illüstrasyonu</desc>
+<rect x="0" y="0" width="680" height="680" fill="#2B1B12"/>
+<polygon points="340,60 422,131 531,139 539,248 610,330 539,412 531,521 422,529 340,600 258,529 149,521 141,412 70,330 141,248 149,139 258,131" fill="#D9A066"/>
+<circle cx="340" cy="330" r="215" fill="#F7EEDF"/>
+
+<circle cx="426" cy="222" r="28" fill="#E3B673" stroke="#2B1B12" stroke-width="4"/>
+<path d="M170 372 L272 244 L336 322 L398 214 L512 372 Z" fill="#8C4A2A" stroke="#2B1B12" stroke-width="5"/>
+<path d="M214 372 L296 276 L346 328 L418 256 L482 372 Z" fill="#C1502E" stroke="#2B1B12" stroke-width="5"/>
+
+<ellipse cx="340" cy="486" rx="150" ry="22" fill="#D8C4A6"/>
+<ellipse cx="340" cy="480" rx="150" ry="18" fill="#EAD9C2"/>
+
+<path d="M281 336 L411 336 L397 460 C397 460 372 484 340 484 C308 484 283 460 283 460 Z" fill="#2B1B12" opacity="0.16"/>
+
+<path d="M404 356 C452 348 462 404 420 416 C408 419 398 415 392 409" fill="none" stroke="#2B1B12" stroke-width="24" stroke-linecap="round"/>
+<path d="M404 356 C452 348 462 404 420 416 C408 419 398 415 392 409" fill="none" stroke="#B08A5F" stroke-width="16" stroke-linecap="round"/>
+
+<path d="M275 330 L405 330 L392 452 C392 470 368 482 340 482 C312 482 288 470 288 452 Z" fill="#F0E4CE" stroke="#2B1B12" stroke-width="6"/>
+<rect x="278" y="394" width="124" height="28" fill="#C1502E" stroke="#2B1B12" stroke-width="4"/>
+
+<ellipse cx="340" cy="332" rx="62" ry="14" fill="#3E2A1D" stroke="#2B1B12" stroke-width="4"/>
+
+<path d="M310 284 C298 264 318 252 306 230" fill="none" stroke="#8C4A2A" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+<path d="M370 284 C358 264 378 252 366 230" fill="none" stroke="#8C4A2A" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+</svg>

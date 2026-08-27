@@ -1,0 +1,36 @@
+.product-card {
+  border: 1px solid #ded3c8;
+  border-radius: 6px;
+  background-color: #fffdfc;
+  overflow: hidden;
+}
+
+.product-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.product-card-content {
+  padding: 20px;
+}
+
+.product-card-category {
+  margin: 0 0 8px;
+  color: #7a6a61;
+}
+
+.product-card h3 {
+  margin: 0 0 16px;
+}
+
+.product-card-price {
+  margin: 0 0 20px;
+  font-weight: 700;
+}
+
+.product-card-actions {
+  display: flex;
+  gap: 12px;
+}

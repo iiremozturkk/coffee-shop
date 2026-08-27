@@ -1,0 +1,25 @@
+<svg width="100%" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Classic Espresso</title>
+<desc>Koyu zemin üzerinde güneş ışını rozetli, kalın çizgili espresso illüstrasyonu</desc>
+<rect x="0" y="0" width="680" height="680" fill="#2B1B12"/>
+<polygon points="340,60 422,131 531,139 539,248 610,330 539,412 531,521 422,529 340,600 258,529 149,521 141,412 70,330 141,248 149,139 258,131" fill="#C1502E"/>
+<circle cx="340" cy="330" r="215" fill="#F7EEDF"/>
+
+<ellipse cx="340" cy="472" rx="170" ry="26" fill="#D8C4A6"/>
+<ellipse cx="340" cy="464" rx="170" ry="22" fill="#EAD9C2"/>
+
+<path d="M258 306 L446 306 L418 444 C418 444 385 472 340 472 C295 472 286 444 262 444 Z" fill="#2B1B12" opacity="0.16"/>
+
+<path d="M426 326 C478 316 488 380 440 394 C426 398 412 393 405 386" fill="none" stroke="#2B1B12" stroke-width="26" stroke-linecap="round"/>
+<path d="M426 326 C478 316 488 380 440 394 C426 398 412 393 405 386" fill="none" stroke="#8C4A2A" stroke-width="18" stroke-linecap="round"/>
+
+<path d="M246 296 L434 296 L406 434 C406 434 375 462 340 462 C305 462 274 434 274 434 Z" fill="#6F4028" stroke="#2B1B12" stroke-width="6"/>
+
+<ellipse cx="340" cy="296" rx="92" ry="20" fill="#E3B673" stroke="#2B1B12" stroke-width="4"/>
+<path d="M270 292 C300 280 380 280 410 292" fill="none" stroke="#B9793F" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+<path d="M282 304 C312 316 368 316 398 304" fill="none" stroke="#C98A4E" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+<circle cx="340" cy="297" r="6" fill="#2B1B12"/>
+
+<path d="M312 244 C300 224 320 212 308 190" fill="none" stroke="#8C4A2A" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+<path d="M372 244 C360 224 380 212 368 190" fill="none" stroke="#8C4A2A" stroke-width="9" stroke-linecap="round" opacity="0.8"/>
+</svg>

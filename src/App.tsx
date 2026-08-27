@@ -26,9 +26,15 @@ function App() {
         </div>
       </section>
 
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      <section className="featured-products-section">
+        <h2>Öne Çıkan Ürünler</h2>
+
+        <div className="products-grid">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
     </>
   )
 }
