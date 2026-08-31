@@ -46,7 +46,7 @@ function Products() {
             <option value="Tümü">Tümü</option>
             <option value="Espresso">Espresso</option>
             <option value="Filtre Kahve">Filtre Kahve</option>
-            <option value="Soğuk Kahveler">Soğuk Kahve</option>
+            <option value="Soğuk Kahve">Soğuk Kahve</option>
           </select>
         </label>
 

@@ -1,97 +1,182 @@
 :root {
   font-family: Arial, Helvetica, sans-serif;
+
   color: #2f241f;
   background-color: #f7f3ee;
+
+  --color-background: #f7f3ee;
+  --color-surface: #fffdfb;
+  --color-text: #2f241f;
+  --color-muted: #7a6a61;
+  --color-primary: #74451f;
+  --color-primary-dark: #5d3519;
+  --color-border: #dfd2c7;
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background-color: #f7f3ee;
-  color: #2f241f;
+html {
+  scroll-behavior: smooth;
 }
 
-button {
+body {
+  margin: 0;
+  min-width: 320px;
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+button,
+select {
   font: inherit;
 }
 
-.categories-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 72px 32px;
+button {
+  cursor: pointer;
 }
 
-.categories-section h2 {
-  margin: 0 0 32px;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 36px;
-  color: #2b1d17;
+/* CATEGORIES */
+
+.categories-section {
+  position: relative;
+  z-index: 10;
+
+  width: 100%;
+
+  margin: -110px 0 0;
+  padding: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2b170f 0%,
+      #25130d 55%,
+      #21100b 100%
+    );
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  box-shadow:
+    0 -5px 18px rgba(20, 9, 4, 0.12),
+    0 10px 22px rgba(20, 9, 4, 0.16);
 }
 
 .categories-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  width: min(100%, 1200px);
+  min-height: 110px;
+
+  margin: 0 auto;
+
+  gap: 0;
 }
 
-@media (max-width: 768px) {
-  .categories-section {
-    padding: 56px 24px;
-  }
+/* FEATURED PRODUCTS */
 
-  .categories-section h2 {
-    font-size: 30px;
+.featured-products-section {
+  width: 100%;
+
+  padding: 72px 0 100px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f5eee7 0%,
+      #faf6f1 100%
+    );
+}
+
+.featured-products-section h2 {
+  width: min(100% - 40px, 1240px);
+
+  margin: 0 auto 36px;
+
+  color: #29160e;
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 700;
+
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.featured-products-section .products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 22px;
+
+  width: min(100% - 40px, 1240px);
+
+  margin: 0 auto;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .categories-section {
+    margin-top: -105px;
   }
 
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-@media (max-width: 480px) {
-  .categories-grid {
-    grid-template-columns: 1fr;
+  .categories-grid .category-card:nth-child(3) {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .categories-grid .category-card:nth-child(4) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 }
 
-.featured-products-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 72px 32px;
-}
-
-.featured-products-section h2 {
-  margin: 0 0 32px;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 36px;
-  color: #2b1d17;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .featured-products-section {
-    padding: 56px 24px;
+    padding: 65px 0 85px;
+  }
+
+  .featured-products-section .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    width: min(100% - 36px, 820px);
+  }
+
+  .featured-products-section h2 {
+    width: min(100% - 36px, 820px);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .featured-products-section {
+    padding: 55px 0 70px;
   }
 
   .featured-products-section h2 {
     font-size: 30px;
   }
 
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .featured-products-section .products-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
-  .products-grid {
+@media (max-width: 560px) {
+  .categories-section {
+    margin-top: 0;
+  }
+
+  .categories-grid {
     grid-template-columns: 1fr;
   }
 }

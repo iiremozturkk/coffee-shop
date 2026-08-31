@@ -1,16 +1,118 @@
 .category-card {
-  min-height: 120px;
-  display: flex;
-  align-items: flex-end;
-  padding: 24px;
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
 
-  border: 1px solid #ded3c8;
-  border-radius: 6px;
+  min-height: 110px;
+  padding: 10px 22px;
+
+  background: transparent;
+
+  transition: background 0.2s ease;
+}
+
+.category-card + .category-card {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.category-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* GÖRSEL */
+
+.category-card-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 90px;
+  height: 88px;
+}
+
+.category-card-image {
+  display: block;
+
+  width: 86px;
+  height: 84px;
+
+  object-fit: contain;
+
+  filter: drop-shadow(
+    0 5px 5px rgba(0, 0, 0, 0.22)
+  );
+}
+
+/* YAZI */
+
+.category-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-width: 0;
+  height: 100%;
+}
+
+.category-card-content h3 {
+  margin: 0 0 13px;
+
+  color: #fff8f0;
 
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 700;
 
-  color: #2b1d17;
-  background-color: #fffdfc;
+  line-height: 1.05;
+}
+
+/* KEŞFET */
+
+.category-card-link {
+  width: fit-content;
+
+  padding-bottom: 3px;
+
+  border-bottom: 1px solid #ca5b25;
+
+  color: #e8b08d;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .category-card {
+    grid-template-columns: 78px minmax(0, 1fr);
+
+    min-height: 105px;
+
+    padding: 9px 15px;
+  }
+
+  .category-card-visual {
+    width: 78px;
+    height: 78px;
+  }
+
+  .category-card-image {
+    width: 74px;
+    height: 74px;
+  }
+
+  .category-card-content h3 {
+    font-size: 18px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 560px) {
+  .category-card + .category-card {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }

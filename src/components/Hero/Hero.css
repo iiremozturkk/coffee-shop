@@ -1,84 +1,310 @@
 .hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  column-gap: 64px;
+  position: relative;
+  overflow: hidden;
+
+  min-height: calc(100vh - 55px);
+
+  background-image: url('/images/coffee-street-hero.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+
+/* FOTOĞRAFIN ÜZERİNDEKİ OKUNABİLİRLİK KATMANI */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(34, 17, 10, 0.48) 0%,
+    rgba(34, 17, 10, 0.32) 28%,
+    rgba(34, 17, 10, 0.16) 52%,
+    rgba(34, 17, 10, 0.06) 75%,
+    rgba(34, 17, 10, 0.02) 100%
+  );
+
+  pointer-events: none;
+}
+
+
+/* ANA YERLEŞİM */
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
   align-items: center;
 
-  max-width: 1200px;
-  min-height: 420px;
+  width: min(100% - 70px, 1280px);
+  min-height: calc(100vh - 55px);
+
   margin: 0 auto;
-  padding: 72px 32px;
+  padding: 40px 0 125px;
 }
 
-.hero h1 {
-  max-width: 620px;
+
+/* YAZI ALANI */
+
+.hero-content {
+  max-width: 560px;
+  margin-left: 30px;
+}
+
+
+/* BUGÜN NE İÇİYORUZ? */
+
+.hero-label {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  margin: 0 0 20px;
+
+  color: #fff3e6;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3.8px;
+
+  text-transform: uppercase;
+
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.hero-label::before {
+  content: '';
+
+  width: 32px;
+  height: 2px;
+
+  flex-shrink: 0;
+
+  border-radius: 999px;
+
+  background: #d36a33;
+}
+
+
+/* ANA BAŞLIK */
+
+.hero-title {
   margin: 0;
 
+  color: #fff8f1;
+
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 64px;
-  line-height: 1;
-  letter-spacing: -2px;
+  font-size: clamp(82px, 6.8vw, 118px);
+  font-weight: 500;
 
-  color: #2b1d17;
+  line-height: 0.84;
+  letter-spacing: -5px;
+
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
 }
 
-.hero p {
-  max-width: 340px;
-  margin: 0 0 24px;
+.hero-title-accent {
+  position: relative;
 
-  font-size: 18px;
-  line-height: 1.6;
-  color: #7a6a61;
+  display: block;
+  width: max-content;
+
+  margin-top: 8px;
+
+  color: #c85b24;
+
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -6px;
 }
 
-.hero button {
-  justify-self: start;
+.hero-title-accent::after {
+  content: '';
 
-  padding: 14px 24px;
-  border: 1px solid #6b4423;
-  border-radius: 6px;
+  position: absolute;
 
-  font-weight: 600;
-  color: #ffffff;
-  background-color: #6b4423;
+  left: 6px;
+  bottom: -13px;
+
+  width: 72%;
+  height: 3px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    #d46832,
+    rgba(212, 104, 50, 0)
+  );
+
+  transform: rotate(-2deg);
+}
+
+.hero-dot {
+  color: #d76a33;
+}
+
+
+/* AÇIKLAMA */
+
+.hero-description {
+  max-width: 440px;
+
+  margin: 38px 0 0;
+
+  color: rgba(255, 247, 239, 0.96);
+
+  font-size: 16px;
+  line-height: 1.7;
+
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+}
+
+
+/* BUTON */
+
+.hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 34px;
+
+  min-width: 210px;
+
+  margin-top: 28px;
+  padding: 16px 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+
+  background: rgba(43, 20, 12, 0.92);
+  color: #fff;
+
+  box-shadow: 0 10px 24px rgba(18, 8, 4, 0.22);
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
 
   cursor: pointer;
 
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.hero button:hover {
-  border-color: #5b3f2d;
-  background-color: #5b3f2d;
+.hero-button:hover {
   transform: translateY(-2px);
+
+  background: #c65322;
+
+  box-shadow: 0 14px 28px rgba(18, 8, 4, 0.26);
 }
 
-@media (max-width: 768px) {
+.hero-button-arrow {
+  font-size: 20px;
+  font-weight: 300;
+
+  transition: transform 0.2s ease;
+}
+
+.hero-button:hover .hero-button-arrow {
+  transform: translateX(4px);
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
   .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    min-height: 760px;
 
-    min-height: auto;
-    padding: 56px 24px;
+    background-position: 58% center;
   }
 
-  .hero h1 {
-    max-width: 100%;
-    margin-bottom: 24px;
+  .hero-inner {
+    width: min(100% - 44px, 760px);
+    min-height: 760px;
 
-    font-size: 48px;
-    line-height: 1;
-    letter-spacing: -1.5px;
+    padding: 50px 0 110px;
   }
 
-  .hero p {
-    max-width: 320px;
-    margin-bottom: 24px;
+  .hero-content {
+    max-width: 520px;
+    margin-left: 0;
+  }
 
-    font-size: 16px;
+  .hero-title {
+    font-size: clamp(68px, 11vw, 94px);
+  }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 540px) {
+  .hero {
+    min-height: 680px;
+
+    background-position: 58% center;
+  }
+
+  .hero-inner {
+    width: calc(100% - 30px);
+    min-height: 680px;
+
+    padding: 40px 0 90px;
+  }
+
+  .hero-content {
+    margin-left: 0;
+  }
+
+  .hero-label {
+    margin-bottom: 16px;
+
+    font-size: 10px;
+    letter-spacing: 2.6px;
+  }
+
+  .hero-label::before {
+    width: 22px;
+  }
+
+  .hero-title {
+    font-size: clamp(58px, 17vw, 76px);
+
+    line-height: 0.87;
+    letter-spacing: -3px;
+  }
+
+  .hero-title-accent {
+    letter-spacing: -4px;
+  }
+
+  .hero-title-accent::after {
+    bottom: -10px;
+  }
+
+  .hero-description {
+    margin-top: 30px;
+
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .hero-button {
+    min-width: 198px;
+
+    margin-top: 24px;
+    padding: 14px 18px;
+
+    font-size: 11px;
   }
 }

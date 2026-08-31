@@ -1,36 +1,168 @@
 .product-card {
-  border: 1px solid #ded3c8;
-  border-radius: 6px;
-  background-color: #fffdfc;
+  position: relative;
   overflow: hidden;
+
+  border: 1px solid rgba(83, 48, 28, 0.1);
+  border-radius: 10px;
+
+  background: #fffaf5;
+
+  box-shadow:
+    0 10px 28px rgba(55, 31, 18, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 16px 34px rgba(55, 31, 18, 0.13);
+}
+
+
+/* GÖRSEL ALANI */
+
+.product-card-image-wrapper {
+  overflow: hidden;
+
+  background: #2b170f;
 }
 
 .product-card-image {
   display: block;
+
   width: 100%;
   aspect-ratio: 4 / 3;
+
   object-fit: cover;
+
+  transition: transform 0.35s ease;
 }
 
+.product-card:hover .product-card-image {
+  transform: scale(1.025);
+}
+
+
+/* İÇERİK */
+
 .product-card-content {
-  padding: 20px;
+  padding: 22px 22px 24px;
 }
 
 .product-card-category {
   margin: 0 0 8px;
-  color: #7a6a61;
+
+  color: #a45127;
+
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .product-card h3 {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
+
+  color: #28150d;
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 23px;
+  font-weight: 700;
+
+  line-height: 1.15;
 }
 
+
+/* FİYAT */
+
 .product-card-price {
-  margin: 0 0 20px;
+  margin: 0 0 22px;
+
+  color: #28150d;
+
+  font-size: 18px;
   font-weight: 700;
 }
 
+
+/* BUTONLAR */
+
 .product-card-actions {
-  display: flex;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.product-card-actions button {
+  min-height: 42px;
+
+  padding: 10px 13px;
+
+  border-radius: 6px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* ÜRÜNÜ İNCELE */
+
+.product-card-detail {
+  border: 1px solid #472618;
+
+  background: transparent;
+  color: #352017;
+}
+
+.product-card-detail:hover {
+  background: #f1e2d5;
+
+  transform: translateY(-1px);
+}
+
+
+/* SEPETE EKLE */
+
+.product-card-cart {
+  border: 1px solid #2b170f;
+
+  background: #2b170f;
+  color: #fff;
+}
+
+.product-card-cart:hover {
+  border-color: #3a1e13;
+
+  background: #3a1e13;
+
+  transform: translateY(-1px);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 560px) {
+  .product-card-content {
+    padding: 18px;
+  }
+
+  .product-card h3 {
+    font-size: 21px;
+  }
+
+  .product-card-actions {
+    grid-template-columns: 1fr;
+  }
 }

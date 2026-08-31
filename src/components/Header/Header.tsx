@@ -8,14 +8,37 @@ type HeaderProps = {
 function Header({ title, cartCount }: HeaderProps) {
   return (
     <header className="header">
-      <div className="header-logo">{title}</div>
+      <div className="header-inner">
+        <div className="header-logo">
+          <img
+            className="header-logo-mark"
+            src="/images/coffee-logo.png"
+            alt=""
+          />
 
-      <nav className="header-nav">
-        <span>Ana Sayfa</span>
-        <span>Ürünler</span>
-        <span>Kategoriler</span>
-        <span>Sepet ({cartCount})</span>
-      </nav>
+          <span>{title}</span>
+        </div>
+
+        <nav className="header-nav" aria-label="Ana navigasyon">
+          <span>Ana Sayfa</span>
+          <span>Ürünler</span>
+          <span>Kategoriler</span>
+
+          <span className="header-cart">
+            <svg
+              className="header-cart-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M3 4h2l2.1 9.1a2 2 0 0 0 2 1.5h7.7a2 2 0 0 0 1.9-1.4L21 7H7" />
+              <circle cx="10" cy="19" r="1.5" />
+              <circle cx="18" cy="19" r="1.5" />
+            </svg>
+
+            Sepet ({cartCount})
+          </span>
+        </nav>
+      </div>
     </header>
   )
 }
