@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import './Header.css'
 
 type HeaderProps = {
@@ -20,8 +21,14 @@ function Header({ title, cartCount }: HeaderProps) {
         </div>
 
         <nav className="header-nav" aria-label="Ana navigasyon">
-          <span>Ana Sayfa</span>
-          <span>Ürünler</span>
+          <NavLink to="/" className="header-nav-link">
+            Ana Sayfa
+          </NavLink>
+
+          <NavLink to="/products" className="header-nav-link">
+            Ürünler
+          </NavLink>
+
           <span>Kategoriler</span>
 
           <span className="header-cart">
