@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import type { Product } from '../../types/product'
 
 import './ProductCard.css'
@@ -7,6 +9,8 @@ type ProductCardProps = {
 }
 
 function ProductCard({ product }: ProductCardProps) {
+  const navigate = useNavigate()
+
   return (
     <article className="product-card">
       <div className="product-card-image-wrapper">
@@ -32,6 +36,7 @@ function ProductCard({ product }: ProductCardProps) {
           <button
             className="product-card-detail"
             type="button"
+            onClick={() => navigate(`/products/${product.id}`)}
           >
             Ürünü İncele
           </button>
