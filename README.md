@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-İlerleyen fazlarda React Router, ürün detay sayfası ve sepet yönetimi gibi özellikler projeye eklenecektir.
+Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. İlerleyen fazlarda gerçek sepet yönetimi ve kullanıcı deneyimi durumları geliştirilecektir.
 
-> **Mevcut durum:** Faz 0 ve Faz 1 tamamlandı. Faz 2'de React Router ve ürün detay sayfası geliştirilecektir.
+> **Mevcut durum:** Faz 0, Faz 1 ve Faz 2 tamamlandı. Gerçek `Sepete Ekle` işlevi ve merkezi sepet yönetimi Faz 3'ün başlangıcında geliştirilecektir.
 
 ---
 
@@ -18,7 +18,8 @@ Uygulamada kullanıcıların:
 - kategorileri görebilmesi,
 - ürünleri kategoriye göre filtreleyebilmesi,
 - ürünleri fiyat ve isme göre sıralayabilmesi,
-- ilerleyen fazlarda ürün detay sayfasına gidebilmesi,
+- ürün detay sayfasına gidebilmesi,
+- kategori kartlarından ilgili kategori ürünlerine ulaşabilmesi,
 - ilerleyen fazlarda ürünleri sepete ekleyip sepetini yönetebilmesi
 
 hedeflenmektedir.
@@ -35,6 +36,7 @@ Proje kapsamında gerçek ödeme sistemi veya kullanıcı üyeliği bulunmamakta
 - CSS
 - React State (`useState`)
 - React Hooks (`useEffect`)
+- React Router
 - Git / GitHub
 - npm
 
@@ -88,14 +90,30 @@ http://localhost:5173
 - Kategori filtreleme
 - Fiyata göre sıralama
 - İsme göre sıralama
+- React Router entegrasyonu
+- Sayfalar arası navigasyon
+- `/products` ürün listeleme route'u
+- `/products/:id` dinamik ürün detay route'u
+- Ürün kartından ürün detay sayfasına yönlendirme
+- Ürün detayında ürün bilgilerinin gösterimi
+- Geçersiz ürün ID'si için bulunamadı durumu
+- Ürün detayında adet seçimi
+- `/categories/:category` dinamik kategori route'u
+- Kategori kartlarından kategori sayfasına yönlendirme
+- Geçersiz kategori için bulunamadı durumu
+- Header'dan kategori alanına smooth scroll navigasyonu
+- `/cart` route'u ve Cart sayfası altyapısı
+- Responsive ürün detay tasarımı
 - Responsive tasarım
 
 Sonraki fazlarda:
 
-- React Router entegrasyonu
-- Ürün detay sayfası
-- Ürün kartından detay sayfasına yönlendirme
-- Sepet yönetimi
+- Gerçek sepete ekleme işlemi
+- Global sepet state yönetimi
+- Sepette adet artırma / azaltma
+- Ürünü sepetten silme
+- Sepet toplamlarının hesaplanması
+- Loading / error / empty state senaryolarının tamamlanması
 
 geliştirilecektir.
 
@@ -103,7 +121,7 @@ geliştirilecektir.
 
 ## Kod Kalitesi Kontrolleri
 
-Faz 1 sonunda aşağıdaki kontroller uygulanmıştır:
+Faz 2 sonunda aşağıdaki kontroller tekrar uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
@@ -111,7 +129,7 @@ Faz 1 sonunda aşağıdaki kontroller uygulanmıştır:
 | Production build | `npm run build` |
 | Whitespace / diff kontrolü | `git diff --check` |
 
-Kod üzerinde TypeScript ve ESLint kontrolleri başarıyla tamamlanmıştır.
+Faz 2 sonunda ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
 
 ---
 
@@ -317,6 +335,49 @@ Mobil cihazlarda içerikler daha küçük ekranlara uygun şekilde yeniden düze
 
 ---
 
+## Faz 2 — Routing ve Ürün Detay Sayfası
+
+Faz 2'de React Router kullanılarak sayfalar arası navigasyon ve ürün detay akışı tamamlandı.
+
+### Yapılanlar
+
+- `react-router-dom` projeye eklendi ve `BrowserRouter` yapılandırıldı.
+- Ana sayfa içeriği `Home` sayfasına taşındı.
+- Aşağıdaki route'lar oluşturuldu:
+
+```text
+/                       → Ana sayfa
+/products               → Ürünler sayfası
+/products/:id           → Ürün detay sayfası
+/categories/:category   → Kategoriye ait ürünler
+/cart                    → Sepet sayfası altyapısı
+```
+
+- Header içerisindeki Ana Sayfa, Ürünler, Kategoriler ve Sepet navigasyonları bağlandı.
+- `ProductCard` üzerinden ilgili ürün detay sayfasına geçiş eklendi.
+- `useParams()` ile ürün ID'sine göre ürün detayları gösterildi.
+- Geçersiz ürün ID'sinde bulunamadı durumu eklendi.
+- Ürün detayında görsel, kategori, ad, açıklama, fiyat, stok ve adet seçimi gösterildi.
+- Adet artırma / azaltma işlemleri eklendi ve adet `1` değerinin altına düşmeyecek şekilde sınırlandı.
+- Kategori kartları `/categories/:category` route'una bağlandı ve ilgili kategori ürünleri listelendi.
+- Geçersiz kategori için bulunamadı durumu eklendi.
+- Ürün detay sayfası responsive hale getirildi.
+- `/cart` route'u ve temel Cart sayfası oluşturuldu.
+
+> **Not:** Gerçek sepete ekleme, global sepet state yönetimi, sepet içi adet güncelleme, ürün silme ve toplam fiyat hesaplama işlemleri Faz 3 kapsamında geliştirilecektir.
+
+### Faz 2 Kontrolleri
+
+```bash
+npm run lint
+npm run build
+git diff --check
+```
+
+Kontroller başarıyla tamamlandı.
+
+---
+
 ## TypeScript Kullanımı
 
 Projede TypeScript aktif olarak kullanılmaktadır.
@@ -355,7 +416,16 @@ src/
 │   └── ProductCard/
 │
 ├── pages/
-│   └── Products/
+│   ├── Home/
+│   │   └── Home.tsx
+│   ├── Products/
+│   ├── ProductDetail/
+│   │   ├── ProductDetail.tsx
+│   │   └── ProductDetail.css
+│   ├── Category/
+│   │   └── Category.tsx
+│   └── Cart/
+│       └── Cart.tsx
 │
 ├── data/
 │   ├── categories.ts
@@ -366,7 +436,8 @@ src/
 │   └── product.ts
 │
 ├── App.tsx
-└── index.css
+├── index.css
+└── main.tsx
 ```
 
 Görsel assetler:
@@ -426,21 +497,44 @@ Proje kapsamı dışında ekstra carousel, dark mode, parallax veya benzeri öze
 
 Son madde React Router ve ürün detay sayfası ile birlikte Faz 2'de tamamlanacaktır.
 
+## Faz 2
+
+- [x] React Router kullanılıyor.
+- [x] Sayfalar arası navigation çalışıyor.
+- [x] `/` ana sayfa route'u çalışıyor.
+- [x] `/products` ürün listeleme route'u çalışıyor.
+- [x] `/products/:id` dinamik ürün detay route'u çalışıyor.
+- [x] Ürün ID'sine göre doğru ürün detay sayfası açılıyor.
+- [x] Geçersiz ürün ID'sinde bulunamadı durumu gösteriliyor.
+- [x] Ürün detayında ürün bilgileri gösteriliyor.
+- [x] Kullanıcı ürün adedini değiştirebiliyor.
+- [x] Ürün adedi 1'in altına düşmüyor.
+- [x] Ürün kartından ürün detay sayfasına yönlendirme çalışıyor.
+- [x] `/categories/:category` dinamik kategori route'u çalışıyor.
+- [x] Kategori kartından ilgili kategori sayfasına yönlendirme çalışıyor.
+- [x] Geçersiz kategori için bulunamadı durumu gösteriliyor.
+- [x] Header navigasyonu route'lara bağlandı.
+- [x] Header'daki Kategoriler bağlantısı kategori alanına smooth scroll yapıyor.
+- [x] `/cart` route'u ve Cart sayfası altyapısı oluşturuldu.
+- [x] Ürün detay sayfasına responsive tasarım uygulandı.
+- [ ] Sepete Ekle butonu gerçek sepet state'ine bağlı
+
+Son madde gerçek sepet yönetimiyle birlikte Faz 3'ün başlangıcında tamamlanacaktır.
+
 ---
 
 ## Bilinen Eksikler / Sonraki Fazlar
 
 Şu anda bilinçli olarak sonraki fazlara bırakılan maddeler:
 
-- React Router entegrasyonu
-- `/products` route'u
-- `/products/:id` ürün detay route'u
-- ürün detay sayfası
-- ürün kartından ürün detayına yönlendirme
-- adet seçimi
 - gerçek sepete ekleme işlemi
 - global sepet state yönetimi
-- sepet sayfası
+- aynı ürün tekrar eklendiğinde quantity artırma
+- sepet içerisinde adet artırma / azaltma
+- ürünü sepetten silme
+- sepet ara toplamı ve toplam fiyat hesaplama
+- Header'daki gerçek sepet ürün adedi
+- sepet empty state'i
 - loading / error / empty state senaryolarının tamamlanması
 
 Bu özellikler proje dokümanındaki sonraki fazlara göre sırayla geliştirilecektir.
@@ -456,8 +550,9 @@ Kullanılan branch'lerden bazıları:
 ```text
 feature/phase-0-react-basics
 feature/phase-1-home-products
+feature/phase-2-routing-product-detail
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
 
-Faz 1 sonunda çalışma ağacı temiz durumdadır ve kod kalite kontrolleri uygulanmıştır.
+Faz 2 sonunda çalışma ağacı temiz durumdadır ve kod kalite kontrolleri uygulanmıştır.
