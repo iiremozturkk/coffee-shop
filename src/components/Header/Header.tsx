@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+
 import './Header.css'
 
 type HeaderProps = {
@@ -16,7 +17,6 @@ function Header({ title, cartCount }: HeaderProps) {
             src="/images/coffee-logo.png"
             alt=""
           />
-
           <span>{title}</span>
         </div>
 
@@ -29,9 +29,17 @@ function Header({ title, cartCount }: HeaderProps) {
             Ürünler
           </NavLink>
 
-          <span>Kategoriler</span>
+          <NavLink
+            to="/#categories"
+            className="header-nav-link"
+          >
+            Kategoriler
+          </NavLink>
 
-          <span className="header-cart">
+          <NavLink
+            to="/cart"
+            className="header-nav-link header-cart"
+          >
             <svg
               className="header-cart-icon"
               viewBox="0 0 24 24"
@@ -43,7 +51,7 @@ function Header({ title, cartCount }: HeaderProps) {
             </svg>
 
             Sepet ({cartCount})
-          </span>
+          </NavLink>
         </nav>
       </div>
     </header>
