@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom'
+
 import './CategoryCard.css'
+
 import type { Category } from '../../types/category'
 
 type CategoryCardProps = {
@@ -27,9 +30,12 @@ function CategoryCard({ name }: CategoryCardProps) {
       <div className="category-card-content">
         <h3>{name}</h3>
 
-        <span className="category-card-link">
+        <Link
+          className="category-card-link"
+          to={`/categories/${name}`}
+        >
           Keşfet →
-        </span>
+        </Link>
       </div>
     </article>
   )
