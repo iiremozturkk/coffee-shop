@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useCart } from '../../context/CartContext'
 import { products } from '../../data/products'
 
 import './ProductDetail.css'
 
 function ProductDetail() {
   const { id } = useParams()
-
+  const { addToCart } = useCart()
   const [quantity, setQuantity] = useState(1)
 
   const product = products.find(
@@ -45,9 +46,7 @@ function ProductDetail() {
         </div>
 
         <div className="product-detail-content">
-          <p className="product-detail-category">
-            {product.category}
-          </p>
+          <p className="product-detail-category">{product.category}</p>
 
           <h1>{product.name}</h1>
 
@@ -88,6 +87,7 @@ function ProductDetail() {
           <button
             className="product-detail-cart"
             type="button"
+            onClick={() => addToCart(product, quantity)}
           >
             Sepete Ekle
           </button>

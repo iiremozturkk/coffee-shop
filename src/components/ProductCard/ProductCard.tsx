@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { useCart } from '../../context/CartContext'
 import type { Product } from '../../types/product'
 
 import './ProductCard.css'
@@ -10,6 +11,7 @@ type ProductCardProps = {
 
 function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate()
+  const { addToCart } = useCart()
 
   return (
     <article className="product-card">
@@ -44,6 +46,7 @@ function ProductCard({ product }: ProductCardProps) {
           <button
             className="product-card-cart"
             type="button"
+            onClick={() => addToCart(product)}
           >
             Sepete Ekle
           </button>
