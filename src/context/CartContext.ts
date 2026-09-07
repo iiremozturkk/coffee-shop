@@ -9,6 +9,9 @@ import type { Product } from '../types/product'
 export type CartContextValue = {
   cartItems: CartItem[]
   addToCart: (product: Product, quantity?: number) => void
+  increaseQuantity: (productId: number) => void
+  decreaseQuantity: (productId: number) => void
+  removeFromCart: (productId: number) => void
   totalItemCount: number
 }
 

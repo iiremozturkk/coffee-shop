@@ -3,7 +3,12 @@ import { useCart } from '../../context/CartContext'
 import './Cart.css'
 
 function Cart() {
-  const { cartItems } = useCart()
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+  } = useCart()
 
   return (
     <main className="cart-page">
@@ -21,20 +26,47 @@ function Cart() {
               alt={item.name}
             />
 
-            <div className="cart-item-content">
+            <div className="cart-item-info">
               <h2>{item.name}</h2>
 
               <p>
                 Birim Fiyat: {item.price} TL
               </p>
+            </div>
 
-              <p>
-                Adet: {item.quantity}
-              </p>
+            <div className="cart-item-actions">
+              <div className="cart-item-quantity">
+                <span>Adet:</span>
+
+                <button
+                  type="button"
+                  onClick={() => decreaseQuantity(item.id)}
+                  disabled={item.quantity === 1}
+                >
+                  -
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button
+                  type="button"
+                  onClick={() => increaseQuantity(item.id)}
+                >
+                  +
+                </button>
+              </div>
 
               <p className="cart-item-total">
                 Toplam: {item.price * item.quantity} TL
               </p>
+
+              <button
+                className="cart-item-remove"
+                type="button"
+                onClick={() => removeFromCart(item.id)}
+              >
+                Ürünü Sil
+              </button>
             </div>
           </article>
         ))}
