@@ -92,6 +92,27 @@
   opacity: 0.9;
 }
 
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 24px auto 0;
+  padding: 20px 24px;
+  background-color: #fffaf6;
+  border-radius: 14px;
+  color: #2b1810;
+}
+
+.cart-summary span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cart-summary strong {
+  font-size: 22px;
+}
+
 @media (max-width: 700px) {
   .cart-page {
     padding: 32px 16px;
@@ -125,5 +146,9 @@
 
   .cart-item-actions {
     grid-column: auto;
+  }
+
+  .cart-summary {
+    padding: 18px;
   }
 }

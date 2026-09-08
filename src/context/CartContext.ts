@@ -13,6 +13,7 @@ export type CartContextValue = {
   decreaseQuantity: (productId: number) => void
   removeFromCart: (productId: number) => void
   totalItemCount: number
+  totalPrice: number
 }
 
 export const CartContext = createContext<

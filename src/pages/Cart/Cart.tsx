@@ -8,6 +8,7 @@ function Cart() {
     increaseQuantity,
     decreaseQuantity,
     removeFromCart,
+    totalPrice,
   } = useCart()
 
   return (
@@ -70,6 +71,11 @@ function Cart() {
             </div>
           </article>
         ))}
+      </div>
+
+      <div className="cart-summary">
+        <span>Sepet Toplamı</span>
+        <strong>{totalPrice} TL</strong>
       </div>
     </main>
   )
