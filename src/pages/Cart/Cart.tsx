@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { useCart } from '../../context/CartContext'
 
 import './Cart.css'
@@ -10,6 +12,25 @@ function Cart() {
     removeFromCart,
     totalPrice,
   } = useCart()
+
+  if (cartItems.length === 0) {
+    return (
+      <main className="cart-page">
+        <div className="cart-empty">
+          <h1>Sepetiniz boş.</h1>
+
+          <p>Kahveleri keşfetmeye ne dersiniz?</p>
+
+          <Link
+            to="/products"
+            className="cart-empty-link"
+          >
+            Ürünlere Git
+          </Link>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="cart-page">
