@@ -10,6 +10,7 @@ function Cart() {
     increaseQuantity,
     decreaseQuantity,
     removeFromCart,
+    clearCart,
     totalPrice,
   } = useCart()
 
@@ -34,7 +35,17 @@ function Cart() {
 
   return (
     <main className="cart-page">
-      <h1>Sepetim</h1>
+      <div className="cart-header">
+        <h1>Sepetim</h1>
+
+        <button
+          className="cart-clear"
+          type="button"
+          onClick={clearCart}
+        >
+          Sepeti Temizle
+        </button>
+      </div>
 
       <div className="cart-items">
         {cartItems.map((item) => (

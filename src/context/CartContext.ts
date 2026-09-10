@@ -12,6 +12,7 @@ export type CartContextValue = {
   increaseQuantity: (productId: number) => void
   decreaseQuantity: (productId: number) => void
   removeFromCart: (productId: number) => void
+  clearCart: () => void
   totalItemCount: number
   totalPrice: number
 }

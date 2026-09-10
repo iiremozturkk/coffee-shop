@@ -4,11 +4,32 @@
   background-color: #f7f1eb;
 }
 
-.cart-page > h1 {
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   max-width: 1000px;
   margin: 0 auto 32px;
+}
+
+.cart-header h1 {
+  margin: 0;
   font-family: Georgia, serif;
   color: #2b1810;
+}
+
+.cart-clear {
+  padding: 10px 16px;
+  border: 1px solid #2b1810;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #2b1810;
+  cursor: pointer;
+}
+
+.cart-clear:hover {
+  background-color: #2b1810;
+  color: #ffffff;
 }
 
 .cart-items {
@@ -94,8 +115,8 @@
 
 .cart-summary {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   max-width: 1000px;
   margin: 24px auto 0;
   padding: 20px 24px;
@@ -111,46 +132,6 @@
 
 .cart-summary strong {
   font-size: 22px;
-}
-
-@media (max-width: 700px) {
-  .cart-page {
-    padding: 32px 16px;
-  }
-
-  .cart-item {
-    grid-template-columns: 110px 1fr;
-  }
-
-  .cart-item-image {
-    width: 110px;
-    height: 110px;
-  }
-
-  .cart-item-actions {
-    grid-column: 1 / -1;
-    width: 100%;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 480px) {
-  .cart-item {
-    grid-template-columns: 1fr;
-  }
-
-  .cart-item-image {
-    width: 100%;
-    height: 220px;
-  }
-
-  .cart-item-actions {
-    grid-column: auto;
-  }
-
-  .cart-summary {
-    padding: 18px;
-  }
 }
 
 .cart-empty {
@@ -179,4 +160,50 @@
   background-color: #2b1810;
   color: #ffffff;
   text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  .cart-page {
+    padding: 32px 16px;
+  }
+
+  .cart-item {
+    grid-template-columns: 110px 1fr;
+  }
+
+  .cart-item-image {
+    width: 110px;
+    height: 110px;
+  }
+
+  .cart-item-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-item-image {
+    width: 100%;
+    height: 220px;
+  }
+
+  .cart-item-actions {
+    grid-column: auto;
+  }
+
+  .cart-summary {
+    padding: 18px;
+  }
 }
