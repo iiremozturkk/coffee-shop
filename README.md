@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. İlerleyen fazlarda gerçek sepet yönetimi ve kullanıcı deneyimi durumları geliştirilecektir.
+Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır.
 
-> **Mevcut durum:** Faz 0, Faz 1 ve Faz 2 tamamlandı. Gerçek `Sepete Ekle` işlevi ve merkezi sepet yönetimi Faz 3'ün başlangıcında geliştirilecektir.
+> **Mevcut durum:** Faz 0, Faz 1, Faz 2 ve Faz 3 tamamlandı. Sonraki aşamada Faz 4 kapsamında kullanıcı deneyimi ve hata yönetimi geliştirilecektir.
 
 ---
 
@@ -20,7 +20,7 @@ Uygulamada kullanıcıların:
 - ürünleri fiyat ve isme göre sıralayabilmesi,
 - ürün detay sayfasına gidebilmesi,
 - kategori kartlarından ilgili kategori ürünlerine ulaşabilmesi,
-- ilerleyen fazlarda ürünleri sepete ekleyip sepetini yönetebilmesi
+- ürünleri sepete ekleyip sepetini yönetebilmesi
 
 hedeflenmektedir.
 
@@ -36,6 +36,8 @@ Proje kapsamında gerçek ödeme sistemi veya kullanıcı üyeliği bulunmamakta
 - CSS
 - React State (`useState`)
 - React Hooks (`useEffect`)
+- React Context API
+- Custom Hook (`useCart`)
 - React Router
 - Git / GitHub
 - npm
@@ -92,36 +94,25 @@ http://localhost:5173
 - İsme göre sıralama
 - React Router entegrasyonu
 - Sayfalar arası navigasyon
-- `/products` ürün listeleme route'u
-- `/products/:id` dinamik ürün detay route'u
-- Ürün kartından ürün detay sayfasına yönlendirme
-- Ürün detayında ürün bilgilerinin gösterimi
-- Geçersiz ürün ID'si için bulunamadı durumu
+- Dinamik ürün detay ve kategori route'ları
 - Ürün detayında adet seçimi
-- `/categories/:category` dinamik kategori route'u
-- Kategori kartlarından kategori sayfasına yönlendirme
-- Geçersiz kategori için bulunamadı durumu
-- Header'dan kategori alanına smooth scroll navigasyonu
-- `/cart` route'u ve Cart sayfası altyapısı
-- Responsive ürün detay tasarımı
-- Responsive tasarım
-
-Sonraki fazlarda:
-
-- Gerçek sepete ekleme işlemi
-- Global sepet state yönetimi
+- Merkezi sepet state yönetimi
+- Ürünleri sepete ekleme
 - Sepette adet artırma / azaltma
 - Ürünü sepetten silme
-- Sepet toplamlarının hesaplanması
-- Loading / error / empty state senaryolarının tamamlanması
+- Sepet toplamını hesaplama
+- Header'da toplam ürün adedini gösterme
+- Boş sepet durumu
+- Sepetin tamamını temizleme
+- Responsive tasarım
 
-geliştirilecektir.
+Sonraki fazda loading, error ve diğer kullanıcı deneyimi durumları geliştirilecektir.
 
 ---
 
 ## Kod Kalitesi Kontrolleri
 
-Faz 2 sonunda aşağıdaki kontroller tekrar uygulanmıştır:
+Faz 3 sonunda aşağıdaki kontroller uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
@@ -129,7 +120,7 @@ Faz 2 sonunda aşağıdaki kontroller tekrar uygulanmıştır:
 | Production build | `npm run build` |
 | Whitespace / diff kontrolü | `git diff --check` |
 
-Faz 2 sonunda ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
+ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
 
 ---
 
@@ -378,6 +369,38 @@ Kontroller başarıyla tamamlandı.
 
 ---
 
+## Faz 3 — Sepet Yönetimi
+
+Faz 3'te gerçek sepet yönetimi Context API kullanılarak uygulama genelinde merkezi hale getirildi.
+
+### Yapılanlar
+
+- `CartContext` ve `CartProvider` oluşturuldu.
+- `CartItem` tipi ile sepetteki ürünlere `quantity` bilgisi eklendi.
+- `ProductDetail` ve `ProductCard` üzerindeki `Sepete Ekle` butonları gerçek sepet state'ine bağlandı.
+- Aynı ürün tekrar eklendiğinde yeni satır oluşturmak yerine ürün adedi artırıldı.
+- Header'daki sepet adedi `totalItemCount` ile gerçek sepet state'ine bağlandı.
+- Cart sayfasında ürün görseli, ürün adı, birim fiyat, adet ve satır toplamı gösterildi.
+- Sepette ürün adedi artırma / azaltma ve ürün silme işlemleri eklendi.
+- `totalPrice` ile sepet toplamı hesaplandı.
+- Sepet boşken empty state ve `/products` yönlendirmesi eklendi.
+- `clearCart()` ile sepetin tamamını temizleme işlemi eklendi.
+- Cart sayfası responsive hale getirildi.
+
+> **Not:** Sepetin sayfa yenilendiğinde korunmasını sağlayan `localStorage` entegrasyonu proje dokümanında bonus olarak belirtildiği için eklenmemiştir.
+
+### Faz 3 Kontrolleri
+
+```bash
+npm run lint
+npm run build
+git diff --check
+```
+
+Kontroller başarıyla tamamlandı.
+
+---
+
 ## TypeScript Kullanımı
 
 Projede TypeScript aktif olarak kullanılmaktadır.
@@ -388,6 +411,7 @@ Projede TypeScript aktif olarak kullanılmaktadır.
 - `Product` tipi,
 - `Category` union tipi,
 - `Record<Category, string>` ile kategori görsel eşlemesi
+- `CartItem` tipi ve sepet Context değerlerinin TypeScript ile modellenmesi
 
 kullanılmaktadır.
 
@@ -447,6 +471,23 @@ public/images/
 ```
 
 altında tutulmaktadır.
+
+Faz 3 ile state ve sepet yönetimi için aşağıdaki yapı eklendi:
+
+```text
+src/
+├── context/
+│   ├── CartContext.ts
+│   └── CartProvider.tsx
+│
+├── pages/
+│   └── Cart/
+│       ├── Cart.tsx
+│       └── Cart.css
+│
+└── types/
+    └── cart.ts
+```
 
 ---
 
@@ -521,23 +562,35 @@ Son madde React Router ve ürün detay sayfası ile birlikte Faz 2'de tamamlanac
 
 Son madde gerçek sepet yönetimiyle birlikte Faz 3'ün başlangıcında tamamlanacaktır.
 
+## Faz 3
+
+- [x] Ürün sepete eklenebiliyor.
+- [x] Aynı ürün tekrar eklendiğinde quantity artırılıyor.
+- [x] Ürün adedi artırılabiliyor.
+- [x] Ürün adedi azaltılabiliyor.
+- [x] Ürün sepetten silinebiliyor.
+- [x] Sepet toplamı doğru hesaplanıyor.
+- [x] Sepetteki toplam ürün sayısı Header'da gösteriliyor.
+- [x] Sepet boşken empty state gösteriliyor.
+- [x] Sepet state'i farklı sayfalardan erişilebilir durumda.
+- [x] Sepet state'i Context API ile yönetiliyor.
+- [x] Sepetin tamamı `clearCart()` ile temizlenebiliyor.
+
+Faz 3 kabul kriterlerinin tamamı karşılanmıştır.
+
 ---
 
 ## Bilinen Eksikler / Sonraki Fazlar
 
-Şu anda bilinçli olarak sonraki fazlara bırakılan maddeler:
+Faz 4 kapsamında aşağıdaki kullanıcı deneyimi ve hata yönetimi durumları geliştirilecektir:
 
-- gerçek sepete ekleme işlemi
-- global sepet state yönetimi
-- aynı ürün tekrar eklendiğinde quantity artırma
-- sepet içerisinde adet artırma / azaltma
-- ürünü sepetten silme
-- sepet ara toplamı ve toplam fiyat hesaplama
-- Header'daki gerçek sepet ürün adedi
-- sepet empty state'i
-- loading / error / empty state senaryolarının tamamlanması
+- loading state
+- error state
+- filtre sonucu için empty state
+- mobile / tablet / desktop son kullanıcı deneyimi kontrolleri
+- console warning / error kontrolleri
 
-Bu özellikler proje dokümanındaki sonraki fazlara göre sırayla geliştirilecektir.
+`localStorage`, API entegrasyonu ve testler proje dokümanında bonus özellikler olarak bırakılmıştır.
 
 ---
 
@@ -551,8 +604,9 @@ Kullanılan branch'lerden bazıları:
 feature/phase-0-react-basics
 feature/phase-1-home-products
 feature/phase-2-routing-product-detail
+feature/phase-3-cart-management
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
 
-Faz 2 sonunda çalışma ağacı temiz durumdadır ve kod kalite kontrolleri uygulanmıştır.
+Faz 3 geliştirmeleri `feature/phase-3-cart-management` branch'i üzerinde küçük ve mantıksal commit'ler halinde tamamlanmıştır.
