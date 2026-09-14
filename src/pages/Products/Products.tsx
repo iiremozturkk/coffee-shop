@@ -1,6 +1,8 @@
 import { useState } from 'react'
+
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { products } from '../../data/products'
+
 import './Products.css'
 
 function Products() {
@@ -10,7 +12,9 @@ function Products() {
   const filteredProducts =
     selectedCategory === 'Tümü'
       ? products
-      : products.filter((product) => product.category === selectedCategory)
+      : products.filter(
+          (product) => product.category === selectedCategory,
+        )
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === 'price-asc') {
@@ -41,12 +45,15 @@ function Products() {
           Kategori:
           <select
             value={selectedCategory}
-            onChange={(event) => setSelectedCategory(event.target.value)}
+            onChange={(event) =>
+              setSelectedCategory(event.target.value)
+            }
           >
             <option value="Tümü">Tümü</option>
             <option value="Espresso">Espresso</option>
             <option value="Filtre Kahve">Filtre Kahve</option>
             <option value="Soğuk Kahve">Soğuk Kahve</option>
+            <option value="Türk Kahvesi">Türk Kahvesi</option>
           </select>
         </label>
 
@@ -54,22 +61,41 @@ function Products() {
           Sırala:
           <select
             value={sortOption}
-            onChange={(event) => setSortOption(event.target.value)}
+            onChange={(event) =>
+              setSortOption(event.target.value)
+            }
           >
             <option value="">Varsayılan</option>
-            <option value="price-asc">Fiyat: Düşük → Yüksek</option>
-            <option value="price-desc">Fiyat: Yüksek → Düşük</option>
-            <option value="name-asc">İsim: A → Z</option>
-            <option value="name-desc">İsim: Z → A</option>
+            <option value="price-asc">
+              Fiyat: Düşük → Yüksek
+            </option>
+            <option value="price-desc">
+              Fiyat: Yüksek → Düşük
+            </option>
+            <option value="name-asc">
+              İsim: A → Z
+            </option>
+            <option value="name-desc">
+              İsim: Z → A
+            </option>
           </select>
         </label>
       </div>
 
-      <div className="products-grid">
-        {sortedProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {sortedProducts.length === 0 ? (
+        <p className="products-empty">
+          Bu kategoride ürün bulunamadı.
+        </p>
+      ) : (
+        <div className="products-grid">
+          {sortedProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
+      )}
     </main>
   )
 }

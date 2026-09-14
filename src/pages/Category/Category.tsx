@@ -29,14 +29,20 @@ function Category() {
     <main className="products-page">
       <h1>{category}</h1>
 
-      <div className="products-grid">
-        {categoryProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-          />
-        ))}
-      </div>
+      {categoryProducts.length === 0 ? (
+        <p className="products-empty">
+          Bu kategoride ürün bulunamadı.
+        </p>
+      ) : (
+        <div className="products-grid">
+          {categoryProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
+      )}
     </main>
   )
 }
