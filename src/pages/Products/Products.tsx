@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import ProductCard from '../../components/ProductCard/ProductCard'
+import { categories } from '../../data/categories'
 import { products } from '../../data/products'
 
 import './Products.css'
@@ -50,10 +51,15 @@ function Products() {
             }
           >
             <option value="Tümü">Tümü</option>
-            <option value="Espresso">Espresso</option>
-            <option value="Filtre Kahve">Filtre Kahve</option>
-            <option value="Soğuk Kahve">Soğuk Kahve</option>
-            <option value="Türk Kahvesi">Türk Kahvesi</option>
+
+            {categories.map((category) => (
+              <option
+                key={category}
+                value={category}
+              >
+                {category}
+              </option>
+            ))}
           </select>
         </label>
 

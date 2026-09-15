@@ -5,4 +5,6 @@ export const categories: Category[] = [
   'Filtre Kahve',
   'Soğuk Kahve',
   'Türk Kahvesi',
+  'Kahve Çekirdekleri',
+  'Ekipman',
 ]

@@ -13,6 +13,8 @@ const categoryImages: Record<Category, string> = {
   'Filtre Kahve': '/images/categories/filter-coffee.png',
   'Soğuk Kahve': '/images/categories/cold-coffee.png',
   'Türk Kahvesi': '/images/categories/turkish-coffee.png',
+  'Kahve Çekirdekleri': '/images/categories/coffee-beans.png',
+  Ekipman: '/images/categories/equipment.png',
 }
 
 function CategoryCard({ name }: CategoryCardProps) {
