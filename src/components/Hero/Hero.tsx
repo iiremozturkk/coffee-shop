@@ -1,6 +1,17 @@
 import './Hero.css'
 
 function Hero() {
+  const handleChooseCoffee = () => {
+    const categoriesSection = document.getElementById('categories')
+
+    if (categoriesSection) {
+      categoriesSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
+
   return (
     <section className="hero">
       <div className="hero-overlay" />
@@ -24,9 +35,17 @@ function Hero() {
             Seçim senin.
           </p>
 
-          <button className="hero-button" type="button">
+          <button
+            className="hero-button"
+            type="button"
+            onClick={handleChooseCoffee}
+          >
             <span>KAHVEMİ SEÇ</span>
-            <span className="hero-button-arrow" aria-hidden="true">
+
+            <span
+              className="hero-button-arrow"
+              aria-hidden="true"
+            >
               →
             </span>
           </button>
