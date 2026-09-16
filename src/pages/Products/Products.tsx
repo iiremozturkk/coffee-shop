@@ -1,19 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { categories } from '../../data/categories'
-import { products } from '../../data/products'
+import { getProducts } from '../../services/productService'
+import type { Product } from '../../types/product'
 
 import './Products.css'
 
 function Products() {
+  const [loadedProducts, setLoadedProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('Tümü')
   const [sortOption, setSortOption] = useState('')
 
+  useEffect(() => {
+    getProducts().then((products) => {
+      setLoadedProducts(products)
+      setIsLoading(false)
+    })
+  }, [])
+
   const filteredProducts =
     selectedCategory === 'Tümü'
-      ? products
-      : products.filter(
+      ? loadedProducts
+      : loadedProducts.filter(
           (product) => product.category === selectedCategory,
         )
 
@@ -88,7 +98,33 @@ function Products() {
         </label>
       </div>
 
-      {sortedProducts.length === 0 ? (
+      {isLoading ? (
+        <div
+          className="products-grid"
+          aria-label="Ürünler yükleniyor"
+          aria-busy="true"
+        >
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              className="product-skeleton"
+              key={index}
+            >
+              <div className="product-skeleton-image" />
+
+              <div className="product-skeleton-content">
+                <div className="product-skeleton-category" />
+                <div className="product-skeleton-title" />
+                <div className="product-skeleton-price" />
+
+                <div className="product-skeleton-actions">
+                  <div className="product-skeleton-button" />
+                  <div className="product-skeleton-button" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : sortedProducts.length === 0 ? (
         <p className="products-empty">
           Bu kategoride ürün bulunamadı.
         </p>
