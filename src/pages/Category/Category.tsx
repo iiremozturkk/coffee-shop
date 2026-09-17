@@ -14,12 +14,20 @@ function Category() {
 
   const [loadedProducts, setLoadedProducts] = useState<Product[]>([])
   const [loadedCategory, setLoadedCategory] = useState<string>()
+  const [failedCategory, setFailedCategory] = useState<string>()
+  const [retryCount, setRetryCount] = useState(0)
 
   const isValidCategory = categories.includes(
     category as CategoryType,
   )
 
-  const isLoading = isValidCategory && loadedCategory !== category
+  const hasError =
+    isValidCategory && failedCategory === category
+
+  const isLoading =
+    isValidCategory &&
+    loadedCategory !== category &&
+    !hasError
 
   useEffect(() => {
     if (!isValidCategory) {
@@ -28,17 +36,29 @@ function Category() {
 
     let isCancelled = false
 
-    getProducts().then((products) => {
-      if (!isCancelled) {
-        setLoadedProducts(products)
-        setLoadedCategory(category)
-      }
-    })
+    getProducts()
+      .then((products) => {
+        if (!isCancelled) {
+          setLoadedProducts(products)
+          setLoadedCategory(category)
+          setFailedCategory(undefined)
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setFailedCategory(category)
+        }
+      })
 
     return () => {
       isCancelled = true
     }
-  }, [category, isValidCategory])
+  }, [category, isValidCategory, retryCount])
+
+  const handleRetry = () => {
+    setFailedCategory(undefined)
+    setRetryCount((count) => count + 1)
+  }
 
   if (!isValidCategory) {
     return (
@@ -82,6 +102,23 @@ function Category() {
               </div>
             </div>
           ))}
+        </div>
+      ) : hasError ? (
+        <div
+          className="products-error"
+          role="alert"
+        >
+          <p>
+            Ürünleri yüklerken bir problem oluştu.
+          </p>
+
+          <button
+            type="button"
+            className="products-retry-button"
+            onClick={handleRetry}
+          >
+            Tekrar Dene
+          </button>
         </div>
       ) : categoryProducts.length === 0 ? (
         <p className="products-empty">

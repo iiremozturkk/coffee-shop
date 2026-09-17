@@ -10,15 +10,52 @@ import './Products.css'
 function Products() {
   const [loadedProducts, setLoadedProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('Tümü')
   const [sortOption, setSortOption] = useState('')
 
   useEffect(() => {
-    getProducts().then((products) => {
-      setLoadedProducts(products)
-      setIsLoading(false)
-    })
+    let isCancelled = false
+
+    getProducts()
+      .then((products) => {
+        if (!isCancelled) {
+          setLoadedProducts(products)
+          setHasError(false)
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsLoading(false)
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
   }, [])
+
+  const handleRetry = () => {
+    setIsLoading(true)
+    setHasError(false)
+
+    getProducts()
+      .then((products) => {
+        setLoadedProducts(products)
+        setHasError(false)
+      })
+      .catch(() => {
+        setHasError(true)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
 
   const filteredProducts =
     selectedCategory === 'Tümü'
@@ -123,6 +160,23 @@ function Products() {
               </div>
             </div>
           ))}
+        </div>
+      ) : hasError ? (
+        <div
+          className="products-error"
+          role="alert"
+        >
+          <p>
+            Ürünleri yüklerken bir problem oluştu.
+          </p>
+
+          <button
+            type="button"
+            className="products-retry-button"
+            onClick={handleRetry}
+          >
+            Tekrar Dene
+          </button>
         </div>
       ) : sortedProducts.length === 0 ? (
         <p className="products-empty">
