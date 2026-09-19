@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır.
+Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır.
 
-> **Mevcut durum:** Faz 0, Faz 1, Faz 2 ve Faz 3 tamamlandı. Sonraki aşamada Faz 4 kapsamında kullanıcı deneyimi ve hata yönetimi geliştirilecektir.
+> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları tamamlanmış durumdadır.
 
 ---
 
@@ -85,7 +85,7 @@ http://localhost:5173
 
 - Ana sayfa
 - Responsive Header
-- Hero alanı
+- Hero alanı ve çalışan CTA
 - Kategori gösterimi
 - Öne çıkan ürünler
 - Ürün listeleme sayfası
@@ -104,15 +104,20 @@ http://localhost:5173
 - Header'da toplam ürün adedini gösterme
 - Boş sepet durumu
 - Sepetin tamamını temizleme
-- Responsive tasarım
+- Ürün listeleme ve kategori sayfalarında loading skeleton
+- Ürün yükleme hatalarında error state
+- Hata durumunda `Tekrar Dene` aksiyonu
+- Filtre / kategori sonucu boş olduğunda empty state
+- Mobile / tablet / desktop responsive tasarım
+- Mobil sepet kullanılabilirlik düzenlemeleri
 
-Sonraki fazda loading, error ve diğer kullanıcı deneyimi durumları geliştirilecektir.
+Zorunlu proje fazları tamamlanmıştır. `localStorage`, gerçek API entegrasyonu ve testler bonus kapsamda bırakılmıştır.
 
 ---
 
 ## Kod Kalitesi Kontrolleri
 
-Faz 3 sonunda aşağıdaki kontroller uygulanmıştır:
+Faz 4 sonunda aşağıdaki kontroller uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
@@ -121,6 +126,8 @@ Faz 3 sonunda aşağıdaki kontroller uygulanmıştır:
 | Whitespace / diff kontrolü | `git diff --check` |
 
 ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
+
+Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir.
 
 ---
 
@@ -401,6 +408,118 @@ Kontroller başarıyla tamamlandı.
 
 ---
 
+## Faz 4 — Kullanıcı Deneyimi ve Hata Yönetimi
+
+Faz 4'te uygulamanın yalnızca normal kullanım senaryosunda değil; veri yükleme, hata, boş sonuç ve farklı ekran boyutları gibi kullanıcı deneyimi durumlarında da düzgün çalışması sağlandı.
+
+### Yapılanlar
+
+- Ürün filtreleme sonucunda liste boş olduğunda `Bu kategoride ürün bulunamadı.` empty state'i eklendi.
+- Geçerli fakat ürünü bulunmayan kategori sayfalarında aynı empty state gösterildi.
+- Geçersiz kategori için mevcut `Kategori bulunamadı` davranışı korunmaya devam edildi.
+- Ürün kataloğu ve kategori verileri genişletildi.
+- Products sayfasındaki kategori seçenekleri merkezi `categories` verisinden `map()` ile oluşturulur hale getirildi.
+- Hero alanındaki `KAHVEMİ SEÇ` CTA butonu kategori alanına smooth scroll yapacak şekilde bağlandı.
+- Mock ürün verilerini Promise üzerinden döndüren `productService.ts` servis katmanı oluşturuldu.
+- `/products` ve `/categories/:category` sayfalarına loading state eklendi.
+- Loading sırasında ürün kartlarının yapısına uygun skeleton kartlar gösterildi.
+- Ürün verilerinin yüklenememesi durumunda error state eklendi.
+- Error state içerisinde `Ürünleri yüklerken bir problem oluştu.` mesajı ve `Tekrar Dene` butonu gösterildi.
+- `Tekrar Dene` aksiyonu ürünleri yeniden yükleyecek şekilde bağlandı.
+- Async ürün yükleme işlemlerinde component unmount veya kategori değişimi sonrasında gereksiz state güncellemelerini önlemek için iptal kontrolü uygulandı.
+- Mobil Cart görünümü yeniden düzenlendi.
+- Mobilde miktar butonları dokunmatik kullanıma daha uygun boyuta getirildi.
+- `Sepeti Temizle`, adet kontrolleri, satır toplamı ve silme aksiyonlarının mobil yerleşimi iyileştirildi.
+- Uygulama mobile, tablet ve desktop ekran boyutlarında manuel olarak kontrol edildi.
+- `/`, `/products`, `/products/:id`, `/categories/:category` ve `/cart` sayfalarının responsive davranışları test edildi.
+- Ürün bulunamayan kategori, geçersiz ürün ID'si, loading ve error/retry senaryoları manuel olarak test edildi.
+- Browser console üzerinde gereksiz error / warning bulunmadığı kontrol edildi.
+
+### Loading State
+
+Ürün verileri yüklenirken gerçek ürün kartları yerine skeleton kartlar gösterilmektedir.
+
+Loading state aşağıdaki sayfalarda uygulanmaktadır:
+
+```text
+/products
+/categories/:category
+```
+
+Ürünler yüklendiğinde skeleton alanı otomatik olarak gerçek ürün kartlarıyla değiştirilir.
+
+---
+
+### Error State ve Tekrar Dene
+
+Ürün verilerinin alınamadığı durumda kullanıcıya:
+
+```text
+Ürünleri yüklerken bir problem oluştu.
+[ Tekrar Dene ]
+```
+
+gösterilmektedir.
+
+`Tekrar Dene` butonuna basıldığında:
+
+```text
+error state
+↓
+loading skeleton
+↓
+ürünlerin yeniden yüklenmesi
+```
+
+akışı çalışmaktadır.
+
+Error ve retry davranışı hem Products hem de Category sayfalarında manuel olarak test edilmiştir.
+
+---
+
+### Empty State
+
+Filtre veya kategori sonucunda ürün bulunamadığında:
+
+```text
+Bu kategoride ürün bulunamadı.
+```
+
+mesajı gösterilmektedir.
+
+Geçersiz kategori davranışı bu durumdan ayrı tutulmuştur:
+
+```text
+Kategori bulunamadı
+Aradığınız kategori mevcut değil.
+```
+
+---
+
+### Responsive ve Kullanılabilirlik Kontrolleri
+
+Faz 4 sonunda uygulama yeniden:
+
+- Mobile
+- Tablet
+- Desktop
+
+görünümlerinde kontrol edilmiştir.
+
+
+### Faz 4 Kontrolleri
+
+```bash
+npm run lint
+npm run build
+git diff --check
+```
+
+Kontroller başarıyla tamamlandı.
+
+---
+
+
 ## TypeScript Kullanımı
 
 Projede TypeScript aktif olarak kullanılmaktadır.
@@ -433,6 +552,7 @@ yapısı kullanılarak kategori isimleriyle type-safe şekilde eşleştirilmekte
 
 ```text
 src/
+
 ├── components/
 │   ├── Header/
 │   ├── Hero/
@@ -449,13 +569,22 @@ src/
 │   ├── Category/
 │   │   └── Category.tsx
 │   └── Cart/
-│       └── Cart.tsx
+│       ├── Cart.tsx
+│       └── Cart.css
+│
+├── context/
+│   ├── CartContext.ts
+│   └── CartProvider.tsx
+│
+├── services/
+│   └── productService.ts
 │
 ├── data/
 │   ├── categories.ts
 │   └── products.ts
 │
 ├── types/
+│   ├── cart.ts
 │   ├── category.ts
 │   └── product.ts
 │
@@ -471,23 +600,6 @@ public/images/
 ```
 
 altında tutulmaktadır.
-
-Faz 3 ile state ve sepet yönetimi için aşağıdaki yapı eklendi:
-
-```text
-src/
-├── context/
-│   ├── CartContext.ts
-│   └── CartProvider.tsx
-│
-├── pages/
-│   └── Cart/
-│       ├── Cart.tsx
-│       └── Cart.css
-│
-└── types/
-    └── cart.ts
-```
 
 ---
 
@@ -578,19 +690,38 @@ Son madde gerçek sepet yönetimiyle birlikte Faz 3'ün başlangıcında tamamla
 
 Faz 3 kabul kriterlerinin tamamı karşılanmıştır.
 
+## Faz 4
+
+- [x] Loading state mevcut.
+- [x] Ürün yüklenirken skeleton gösteriliyor.
+- [x] Error state mevcut.
+- [x] Hata durumunda `Tekrar Dene` aksiyonu çalışıyor.
+- [x] Filtre sonucunda empty state gösteriliyor.
+- [x] Geçerli fakat ürünü bulunmayan kategoride empty state gösteriliyor.
+- [x] Mobile görünüm düzgün çalışıyor.
+- [x] Tablet görünüm düzgün çalışıyor.
+- [x] Desktop görünüm düzgün çalışıyor.
+- [x] Mobil sepet kullanılabilir durumda.
+- [x] Dokunmatik aksiyon alanları küçük ekranlara uygun hale getirildi.
+- [x] Hata durumunda uygulama bozulmadan kullanıcıya uygun state gösteriliyor.
+- [x] Geçersiz ürün ID'sinde uygun bulunamadı ekranı gösteriliyor.
+- [x] Console'da gereksiz error / warning bulunmuyor.
+
+Faz 4 kabul kriterlerinin tamamı karşılanmıştır.
+
 ---
 
-## Bilinen Eksikler / Sonraki Fazlar
+## Bilinen Eksikler / Bonus Geliştirmeler
 
-Faz 4 kapsamında aşağıdaki kullanıcı deneyimi ve hata yönetimi durumları geliştirilecektir:
+Projenin zorunlu Faz 0–4 gereksinimleri tamamlanmıştır.
 
-- loading state
-- error state
-- filtre sonucu için empty state
-- mobile / tablet / desktop son kullanıcı deneyimi kontrolleri
-- console warning / error kontrolleri
+Aşağıdaki geliştirmeler proje dokümanında bonus / isteğe bağlı özellikler olarak bırakılmıştır:
 
-`localStorage`, API entegrasyonu ve testler proje dokümanında bonus özellikler olarak bırakılmıştır.
+- gerçek API entegrasyonu,
+- `localStorage` ile sepetin sayfa yenilemelerinde korunması,
+- component / sepet davranışları için otomatik testler.
+
+Bu bonus özellikler mevcut zorunlu proje kapsamına dahil edilmemiştir.
 
 ---
 
@@ -605,8 +736,9 @@ feature/phase-0-react-basics
 feature/phase-1-home-products
 feature/phase-2-routing-product-detail
 feature/phase-3-cart-management
+feature/phase-4-user-experience
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
 
-Faz 3 geliştirmeleri `feature/phase-3-cart-management` branch'i üzerinde küçük ve mantıksal commit'ler halinde tamamlanmıştır.
+Faz 4 geliştirmeleri `feature/phase-4-user-experience` branch'i üzerinde loading, error, empty state, katalog / kategori güncellemeleri ve responsive iyileştirmeler ayrı mantıksal commit'ler halinde geliştirilmiştir.
