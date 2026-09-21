@@ -1,0 +1,228 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Espresso"
+    },
+    {
+      "id": 2,
+      "name": "Filtre Kahve"
+    },
+    {
+      "id": 3,
+      "name": "Soğuk Kahve"
+    },
+    {
+      "id": 4,
+      "name": "Türk Kahvesi"
+    },
+    {
+      "id": 5,
+      "name": "Kahve Çekirdekleri"
+    },
+    {
+      "id": 6,
+      "name": "Ekipman"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Classic Espresso",
+      "description": "Yoğun aromalı klasik espresso.",
+      "price": 120,
+      "image": "/images/products/classic-espresso.png",
+      "category": "Espresso",
+      "stock": 20
+    },
+    {
+      "id": 2,
+      "name": "Colombia Filtre Kahve",
+      "description": "Dengeli ve aromatik Colombia kahvesi.",
+      "price": 160,
+      "image": "/images/products/colombia-filtre-kahve.png",
+      "category": "Filtre Kahve",
+      "stock": 15
+    },
+    {
+      "id": 3,
+      "name": "Cold Brew",
+      "description": "Soğuk demleme yöntemiyle hazırlanan ferah kahve.",
+      "price": 180,
+      "image": "/images/products/cold-brew.png",
+      "category": "Soğuk Kahve",
+      "stock": 12
+    },
+    {
+      "id": 4,
+      "name": "Americano",
+      "description": "Espresso ve sıcak su ile hazırlanan hafif içimli kahve.",
+      "price": 140,
+      "image": "/images/products/americano.png",
+      "category": "Espresso",
+      "stock": 18
+    },
+    {
+      "id": 5,
+      "name": "Cappuccino",
+      "description": "Espresso, sıcak süt ve süt köpüğü ile hazırlanan kahve.",
+      "price": 160,
+      "image": "/images/products/cappuccino.png",
+      "category": "Espresso",
+      "stock": 16
+    },
+    {
+      "id": 6,
+      "name": "Latte",
+      "description": "Espresso ve bol süt ile hazırlanan yumuşak içimli kahve.",
+      "price": 170,
+      "image": "/images/products/latte.png",
+      "category": "Espresso",
+      "stock": 14
+    },
+    {
+      "id": 7,
+      "name": "Mocha",
+      "description": "Espresso, süt ve çikolata aromasıyla hazırlanan kahve.",
+      "price": 180,
+      "image": "/images/products/mocha.png",
+      "category": "Espresso",
+      "stock": 13
+    },
+    {
+      "id": 8,
+      "name": "Flat White",
+      "description": "Yoğun espresso ve ince dokulu süt ile hazırlanan kahve.",
+      "price": 170,
+      "image": "/images/products/flat-white.png",
+      "category": "Espresso",
+      "stock": 15
+    },
+    {
+      "id": 9,
+      "name": "Türk Kahvesi",
+      "description": "Geleneksel yöntemle hazırlanan yoğun aromalı Türk kahvesi.",
+      "price": 130,
+      "image": "/images/products/turk-kahvesi.png",
+      "category": "Türk Kahvesi",
+      "stock": 20
+    },
+    {
+      "id": 10,
+      "name": "Ethiopia Kahve Çekirdeği",
+      "description": "Aromatik ve dengeli Ethiopia kahve çekirdeği.",
+      "price": 220,
+      "image": "/images/products/ethiopia-kahve-cekirdegi.png",
+      "category": "Kahve Çekirdekleri",
+      "stock": 10
+    },
+    {
+      "id": 11,
+      "name": "Caramel Macchiato",
+      "description": "Espresso, süt ve karamel aromasıyla hazırlanan kahve.",
+      "price": 190,
+      "image": "/images/products/caramel-macchiato.png",
+      "category": "Espresso",
+      "stock": 14
+    },
+    {
+      "id": 12,
+      "name": "Salted Caramel Cold Brew",
+      "description": "Cold brew ve tuzlu karamel aromasıyla hazırlanan soğuk kahve.",
+      "price": 210,
+      "image": "/images/products/salted-caramel-cold-brew.png",
+      "category": "Soğuk Kahve",
+      "stock": 12
+    },
+    {
+      "id": 13,
+      "name": "Iced Americano",
+      "description": "Espresso, soğuk su ve buz ile hazırlanan ferah kahve.",
+      "price": 160,
+      "image": "/images/products/iced-americano.png",
+      "category": "Soğuk Kahve",
+      "stock": 18
+    },
+    {
+      "id": 14,
+      "name": "Iced Latte",
+      "description": "Espresso, soğuk süt ve buz ile hazırlanan yumuşak içimli kahve.",
+      "price": 180,
+      "image": "/images/products/iced-latte.png",
+      "category": "Soğuk Kahve",
+      "stock": 16
+    },
+    {
+      "id": 15,
+      "name": "Iced Mocha",
+      "description": "Espresso, soğuk süt, çikolata ve buz ile hazırlanan kahve.",
+      "price": 200,
+      "image": "/images/products/iced-mocha.png",
+      "category": "Soğuk Kahve",
+      "stock": 14
+    },
+    {
+      "id": 16,
+      "name": "Iced Caramel Macchiato",
+      "description": "Espresso, soğuk süt, karamel ve buz ile hazırlanan kahve.",
+      "price": 210,
+      "image": "/images/products/iced-caramel-macchiato.png",
+      "category": "Soğuk Kahve",
+      "stock": 13
+    },
+    {
+      "id": 17,
+      "name": "Damla Sakızlı Türk Kahvesi",
+      "description": "Damla sakızı aromasıyla hazırlanan geleneksel Türk kahvesi.",
+      "price": 150,
+      "image": "/images/products/damla-sakizli-turk-kahvesi.png",
+      "category": "Türk Kahvesi",
+      "stock": 15
+    },
+    {
+      "id": 18,
+      "name": "Menengiç Kahvesi",
+      "description": "Menengiç aromasıyla hazırlanan geleneksel ve yumuşak içimli kahve.",
+      "price": 160,
+      "image": "/images/products/menengic-kahvesi.png",
+      "category": "Türk Kahvesi",
+      "stock": 14
+    },
+    {
+      "id": 19,
+      "name": "Dibek Kahvesi",
+      "description": "Geleneksel dibek yöntemiyle hazırlanan yoğun aromalı kahve.",
+      "price": 160,
+      "image": "/images/products/dibek-kahvesi.png",
+      "category": "Türk Kahvesi",
+      "stock": 14
+    },
+    {
+      "id": 20,
+      "name": "Colombia Supremo",
+      "description": "Dengeli gövdeli ve aromatik Colombia kahve çekirdeği.",
+      "price": 240,
+      "image": "/images/products/colombia-supremo.png",
+      "category": "Kahve Çekirdekleri",
+      "stock": 10
+    },
+    {
+      "id": 21,
+      "name": "Brazil Santos",
+      "description": "Yumuşak içimli ve dengeli Brazil Santos kahve çekirdeği.",
+      "price": 230,
+      "image": "/images/products/brazil-santos.png",
+      "category": "Kahve Çekirdekleri",
+      "stock": 11
+    },
+    {
+      "id": 22,
+      "name": "Kenya AA",
+      "description": "Canlı aromalara sahip yoğun karakterli Kenya AA kahve çekirdeği.",
+      "price": 260,
+      "image": "/images/products/kenya-aa.png",
+      "category": "Kahve Çekirdekleri",
+      "stock": 9
+    }
+  ]
+}
