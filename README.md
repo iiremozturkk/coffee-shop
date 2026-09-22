@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır.
+Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır. Bonus API Integration kapsamında ürün ve kategori verileri JSON Server üzerinden sunulan API endpoint'lerine bağlanmıştır.
 
-> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları tamamlanmış durumdadır.
+> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları ve Bonus API Integration tamamlanmış durumdadır. Sıradaki bonus geliştirmeler `localStorage` ve otomatik testlerdir.
 
 ---
 
@@ -39,6 +39,8 @@ Proje kapsamında gerçek ödeme sistemi veya kullanıcı üyeliği bulunmamakta
 - React Context API
 - Custom Hook (`useCart`)
 - React Router
+- Fetch API
+- JSON Server
 - Git / GitHub
 - npm
 
@@ -63,7 +65,21 @@ npm install
 
 ## Çalıştırma
 
-Development server'ı başlatmak için:
+API entegrasyonu tamamlandığı için uygulamayı çalıştırırken JSON Server ve Vite development server birlikte açık olmalıdır.
+
+İlk terminalde mock API'yi başlatın:
+
+```bash
+npm run api
+```
+
+API aşağıdaki adres üzerinden çalışır:
+
+```text
+http://localhost:3001
+```
+
+İkinci terminalde frontend development server'ı başlatın:
 
 ```bash
 npm run dev
@@ -110,14 +126,20 @@ http://localhost:5173
 - Filtre / kategori sonucu boş olduğunda empty state
 - Mobile / tablet / desktop responsive tasarım
 - Mobil sepet kullanılabilirlik düzenlemeleri
+- JSON Server tabanlı mock API entegrasyonu
+- `GET /products`, `GET /products/:id` ve `GET /categories` endpoint'leri
+- `fetch` ile ürün ve kategori verilerinin alınması
+- API response ve HTTP hata durumlarının yönetilmesi
+- Ürün detayının ID üzerinden API'den alınması
+- API'den gelen ürün ve kategori verilerinin TypeScript ile modellenmesi
 
-Zorunlu proje fazları tamamlanmıştır. `localStorage`, gerçek API entegrasyonu ve testler bonus kapsamda bırakılmıştır.
+Zorunlu proje fazları ve Bonus API Integration tamamlanmıştır. `localStorage` ve otomatik testler sıradaki bonus geliştirmelerdir.
 
 ---
 
 ## Kod Kalitesi Kontrolleri
 
-Faz 4 sonunda aşağıdaki kontroller uygulanmıştır:
+Faz 4 ve Bonus API Integration sonunda aşağıdaki kontroller uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
@@ -127,7 +149,7 @@ Faz 4 sonunda aşağıdaki kontroller uygulanmıştır:
 
 ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
 
-Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir.
+Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir. Bonus API Integration sırasında API açık / kapalı senaryoları, ürün ve kategori endpoint'leri, 404 ürün durumu ve hata sonrası yeniden deneme akışı da manuel olarak test edilmiştir.
 
 ---
 
@@ -519,6 +541,138 @@ Kontroller başarıyla tamamlandı.
 
 ---
 
+## Bonus — API Entegrasyonu
+
+Bonus API Integration kapsamında proje içerisindeki statik / mock ürün servis yapısı JSON Server üzerinden çalışan API endpoint'lerine bağlandı. Bu geliştirme sırasında mevcut kullanıcı arayüzü ve Faz 0–4 davranışları korunarak yalnızca verinin alınma yöntemi değiştirildi.
+
+### Yapılanlar
+
+- `json-server` development dependency olarak projeye eklendi.
+- Proje kök dizininde `db.json` oluşturuldu.
+- Mevcut ürün ve kategori verileri JSON Server tarafından API olarak sunulur hale getirildi.
+- `package.json` içerisine `npm run api` script'i eklendi.
+- `productService.ts` içerisindeki mock Promise yapısı `fetch` tabanlı API istekleriyle değiştirildi.
+- Tüm ürünleri almak için `GET /products` endpoint'i kullanıldı.
+- Tek bir ürünün detayını almak için `GET /products/:id` endpoint'i kullanıldı.
+- Kategori listesini almak için `GET /categories` endpoint'i kullanıldı.
+- API cevaplarında `response.ok` kontrolü uygulanarak başarısız HTTP cevapları error state'e yönlendirildi.
+- Ürün detayında `404` cevabı ayrı yönetilerek mevcut `Ürün bulunamadı` davranışı korundu.
+- JSON Server tarafından string olarak dönebilen ürün ID'leri mevcut `Product` modeline uygun şekilde `number` tipine normalize edildi.
+- Products sayfasında ürün ve kategori istekleri `Promise.all()` ile birlikte yönetildi.
+- Kategori dropdown'u statik kategori kaynağı yerine API'den gelen kategori verileriyle oluşturuldu.
+- Product Detail sayfası ürün bilgisini ID üzerinden API'den alacak şekilde güncellendi.
+- Mevcut loading, error, retry ve empty state davranışları API entegrasyonu sonrasında korunmaya devam edildi.
+- API kapatılarak gerçek hata senaryosu manuel olarak test edildi.
+- API tekrar açıldıktan sonra Products sayfasındaki `Tekrar Dene` akışının verileri yeniden yüklediği doğrulandı.
+
+### API Endpoint'leri
+
+| Method | Endpoint | Kullanım |
+| --- | --- | --- |
+| GET | `/products` | Tüm ürünleri getirir. |
+| GET | `/products/:id` | ID'ye göre tek ürün getirir. |
+| GET | `/categories` | Kategori listesini getirir. |
+
+Local API adresi:
+
+```text
+http://localhost:3001
+```
+
+Örnek endpoint'ler:
+
+```text
+http://localhost:3001/products
+http://localhost:3001/products/1
+http://localhost:3001/categories
+```
+
+### Fetch ve API Response Yönetimi
+
+API istekleri browser'ın yerleşik `fetch` API'si kullanılarak gerçekleştirilmektedir.
+
+Servis katmanında başarısız HTTP cevapları kontrol edilmektedir:
+
+```ts
+if (!response.ok) {
+  throw new Error('Ürünler alınamadı.')
+}
+```
+
+Ürün detayında bulunamayan ürünler için `404` durumu ayrı ele alınmaktadır:
+
+```ts
+if (response.status === 404) {
+  return null
+}
+```
+
+Bu sayede teknik API hatası ile bulunamayan ürün senaryosu birbirinden ayrılmıştır.
+
+### API Verilerinin TypeScript ile Modellenmesi
+
+JSON Server response yapısını mevcut proje tipleriyle uyumlu hale getirmek için API'ye özel tipler kullanılmıştır:
+
+```ts
+type ApiProduct = Omit<Product, 'id'> & {
+  id: string | number
+}
+
+type ApiCategory = {
+  id: string | number
+  name: Category
+}
+```
+
+Ürün ID'si uygulamanın mevcut `Product` modeline uygun şekilde normalize edilmektedir:
+
+```ts
+function normalizeProduct(product: ApiProduct): Product {
+  return {
+    ...product,
+    id: Number(product.id),
+  }
+}
+```
+
+Bu yapı sayesinde API response'u ile uygulama içerisindeki type-safe `Product` modeli arasında uyum sağlanmıştır.
+
+### Loading ve Error State Kontrolleri
+
+API entegrasyonu sonrasında mevcut kullanıcı deneyimi state'leri korunmuştur.
+
+Products sayfasında:
+
+```text
+API isteği
+↓
+loading skeleton
+↓
+ürünlerin gösterilmesi
+```
+
+Hata durumunda:
+
+```text
+Ürünleri yüklerken bir problem oluştu.
+[ Tekrar Dene ]
+```
+
+Product Detail sayfasında API isteği beklenirken `Ürün yükleniyor...` mesajı gösterilmektedir. API erişilemez durumdaysa hata ekranı, ürün ID'si bulunamazsa mevcut `Ürün bulunamadı` ekranı gösterilmektedir.
+
+
+### Bonus API Kontrolleri
+
+```bash
+npm run lint
+npm run build
+git diff --check
+git status
+```
+
+Kontroller başarıyla tamamlandı ve çalışma ağacının temiz olduğu doğrulandı.
+
+---
 
 ## TypeScript Kullanımı
 
@@ -530,7 +684,9 @@ Projede TypeScript aktif olarak kullanılmaktadır.
 - `Product` tipi,
 - `Category` union tipi,
 - `Record<Category, string>` ile kategori görsel eşlemesi
-- `CartItem` tipi ve sepet Context değerlerinin TypeScript ile modellenmesi
+- `CartItem` tipi ve sepet Context değerlerinin TypeScript ile modellenmesi,
+- `ApiProduct` ve `ApiCategory` tipleriyle API response'larının modellenmesi,
+- API'den gelen ürün ID'sinin `Product` modeline uygun şekilde normalize edilmesi
 
 kullanılmaktadır.
 
@@ -592,6 +748,14 @@ src/
 ├── index.css
 └── main.tsx
 ```
+
+Mock API veri kaynağı proje kök dizinindeki:
+
+```text
+db.json
+```
+
+dosyasında tutulmaktadır.
 
 Görsel assetler:
 
@@ -709,19 +873,39 @@ Faz 3 kabul kriterlerinin tamamı karşılanmıştır.
 
 Faz 4 kabul kriterlerinin tamamı karşılanmıştır.
 
+## Bonus API Integration
+
+- [x] JSON Server projeye eklendi.
+- [x] `db.json` mock API veri kaynağı oluşturuldu.
+- [x] `GET /products` endpoint'i kullanılıyor.
+- [x] `GET /products/:id` endpoint'i kullanılıyor.
+- [x] `GET /categories` endpoint'i kullanılıyor.
+- [x] API istekleri `fetch` ile gerçekleştiriliyor.
+- [x] API response yönetimi uygulanıyor.
+- [x] Loading state API istekleriyle çalışıyor.
+- [x] Error handling uygulanıyor.
+- [x] `404` ürün bulunamadı durumu ayrı yönetiliyor.
+- [x] API verileri TypeScript ile modelleniyor.
+- [x] JSON Server'dan gelen ürün ID'leri `number` tipine normalize ediliyor.
+- [x] API açık / kapalı senaryoları manuel olarak test edildi.
+- [x] Hata sonrası `Tekrar Dene` akışı doğrulandı.
+- [x] `npm run lint`, `npm run build` ve `git diff --check` kontrolleri başarıyla tamamlandı.
+
+Bonus API Integration tamamlanmıştır.
+
 ---
 
 ## Bilinen Eksikler / Bonus Geliştirmeler
 
 Projenin zorunlu Faz 0–4 gereksinimleri tamamlanmıştır.
 
-Aşağıdaki geliştirmeler proje dokümanında bonus / isteğe bağlı özellikler olarak bırakılmıştır:
+Bonus geliştirmelerin mevcut durumu:
 
-- gerçek API entegrasyonu,
-- `localStorage` ile sepetin sayfa yenilemelerinde korunması,
-- component / sepet davranışları için otomatik testler.
+- [x] API Integration — JSON Server, `fetch`, API response yönetimi, loading / error handling ve TypeScript API modelleme tamamlandı.
+- [ ] `localStorage` ile sepetin sayfa yenilemelerinde korunması.
+- [ ] ProductCard ve sepet davranışları için otomatik testler.
 
-Bu bonus özellikler mevcut zorunlu proje kapsamına dahil edilmemiştir.
+Bonus API Integration tamamlanmıştır. Kalan bonus geliştirmeler `localStorage` ve otomatik testlerdir.
 
 ---
 
@@ -737,8 +921,11 @@ feature/phase-1-home-products
 feature/phase-2-routing-product-detail
 feature/phase-3-cart-management
 feature/phase-4-user-experience
+feature/api-integration
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
 
 Faz 4 geliştirmeleri `feature/phase-4-user-experience` branch'i üzerinde loading, error, empty state, katalog / kategori güncellemeleri ve responsive iyileştirmeler ayrı mantıksal commit'ler halinde geliştirilmiştir.
+
+Bonus API Integration geliştirmeleri `feature/api-integration` branch'i üzerinde JSON Server altyapısı, ürün detay API entegrasyonu ve kategori API entegrasyonu ayrı mantıksal commit'ler halinde geliştirilmiştir.
