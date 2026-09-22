@@ -33,8 +33,12 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProductById(
   id: number,
-): Promise<Product> {
+): Promise<Product | null> {
   const response = await fetch(`${API_URL}/products/${id}`)
+
+  if (response.status === 404) {
+    return null
+  }
 
   if (!response.ok) {
     throw new Error('Ürün alınamadı.')

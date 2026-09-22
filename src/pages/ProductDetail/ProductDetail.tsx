@@ -1,19 +1,67 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useCart } from '../../context/CartContext'
-import { products } from '../../data/products'
+import { getProductById } from '../../services/productService'
+import type { Product } from '../../types/product'
 
 import './ProductDetail.css'
 
-function ProductDetail() {
-  const { id } = useParams()
-  const { addToCart } = useCart()
-  const [quantity, setQuantity] = useState(1)
+type ProductDetailContentProps = {
+  productId: number
+}
 
-  const product = products.find(
-    (product) => product.id === Number(id),
-  )
+function ProductDetailContent({
+  productId,
+}: ProductDetailContentProps) {
+  const { addToCart } = useCart()
+
+  const [product, setProduct] = useState<Product | null>(null)
+  const [quantity, setQuantity] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+
+  useEffect(() => {
+    let isCancelled = false
+
+    getProductById(productId)
+      .then((loadedProduct) => {
+        if (!isCancelled) {
+          setProduct(loadedProduct)
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setHasError(true)
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setIsLoading(false)
+        }
+      })
+
+    return () => {
+      isCancelled = true
+    }
+  }, [productId])
+
+  if (isLoading) {
+    return (
+      <main>
+        <p>Ürün yükleniyor...</p>
+      </main>
+    )
+  }
+
+  if (hasError) {
+    return (
+      <main>
+        <h1>Bir problem oluştu</h1>
+        <p>Ürün yüklenirken bir problem oluştu.</p>
+      </main>
+    )
+  }
 
   if (!product) {
     return (
@@ -46,7 +94,9 @@ function ProductDetail() {
         </div>
 
         <div className="product-detail-content">
-          <p className="product-detail-category">{product.category}</p>
+          <p className="product-detail-category">
+            {product.category}
+          </p>
 
           <h1>{product.name}</h1>
 
@@ -94,6 +144,28 @@ function ProductDetail() {
         </div>
       </div>
     </main>
+  )
+}
+
+function ProductDetail() {
+  const { id } = useParams()
+
+  const productId = Number(id)
+
+  if (!id || Number.isNaN(productId)) {
+    return (
+      <main>
+        <h1>Ürün bulunamadı</h1>
+        <p>Aradığınız ürün mevcut değil.</p>
+      </main>
+    )
+  }
+
+  return (
+    <ProductDetailContent
+      key={productId}
+      productId={productId}
+    />
   )
 }
 
