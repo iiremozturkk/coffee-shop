@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
 
 import ProductCard from '../../components/ProductCard/ProductCard'
-import { categories } from '../../data/categories'
-import { getProducts } from '../../services/productService'
+import {
+  getCategories,
+  getProducts,
+} from '../../services/productService'
+import type { Category } from '../../types/category'
 import type { Product } from '../../types/product'
 
 import './Products.css'
 
 function Products() {
   const [loadedProducts, setLoadedProducts] = useState<Product[]>([])
+  const [loadedCategories, setLoadedCategories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('Tümü')
@@ -17,10 +21,11 @@ function Products() {
   useEffect(() => {
     let isCancelled = false
 
-    getProducts()
-      .then((products) => {
+    Promise.all([getProducts(), getCategories()])
+      .then(([products, categories]) => {
         if (!isCancelled) {
           setLoadedProducts(products)
+          setLoadedCategories(categories)
           setHasError(false)
         }
       })
@@ -44,9 +49,10 @@ function Products() {
     setIsLoading(true)
     setHasError(false)
 
-    getProducts()
-      .then((products) => {
+    Promise.all([getProducts(), getCategories()])
+      .then(([products, categories]) => {
         setLoadedProducts(products)
+        setLoadedCategories(categories)
         setHasError(false)
       })
       .catch(() => {
@@ -99,7 +105,7 @@ function Products() {
           >
             <option value="Tümü">Tümü</option>
 
-            {categories.map((category) => (
+            {loadedCategories.map((category) => (
               <option
                 key={category}
                 value={category}
@@ -119,15 +125,19 @@ function Products() {
             }
           >
             <option value="">Varsayılan</option>
+
             <option value="price-asc">
               Fiyat: Düşük → Yüksek
             </option>
+
             <option value="price-desc">
               Fiyat: Yüksek → Düşük
             </option>
+
             <option value="name-asc">
               İsim: A → Z
             </option>
+
             <option value="name-desc">
               İsim: Z → A
             </option>
