@@ -1,9 +1,11 @@
 import {
+  useEffect,
   useState,
   type ReactNode,
 } from 'react'
 
 import { CartContext } from './CartContext'
+
 import type { CartItem } from '../types/cart'
 import type { Product } from '../types/product'
 
@@ -11,8 +13,25 @@ type CartProviderProps = {
   children: ReactNode
 }
 
+const CART_STORAGE_KEY = 'cart'
+
 export function CartProvider({ children }: CartProviderProps) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedCart = localStorage.getItem(CART_STORAGE_KEY)
+
+    if (!storedCart) {
+      return []
+    }
+
+    return JSON.parse(storedCart) as CartItem[]
+  })
+
+  useEffect(() => {
+    localStorage.setItem(
+      CART_STORAGE_KEY,
+      JSON.stringify(cartItems),
+    )
+  }, [cartItems])
 
   function addToCart(product: Product, quantity = 1) {
     setCartItems((currentItems) => {
