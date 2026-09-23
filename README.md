@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır. Bonus API Integration kapsamında ürün ve kategori verileri JSON Server üzerinden sunulan API endpoint'lerine bağlanmıştır.
+Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır. Bonus API Integration kapsamında ürün ve kategori verileri JSON Server üzerinden sunulan API endpoint'lerine bağlanmıştır. Bonus LocalStorage kapsamında sepet verileri browser `localStorage` alanında saklanarak sayfa yenilemelerinde korunur hale getirilmiştir.
 
-> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları ve Bonus API Integration tamamlanmış durumdadır. Sıradaki bonus geliştirmeler `localStorage` ve otomatik testlerdir.
+> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları, Bonus API Integration ve Bonus LocalStorage tamamlanmış durumdadır. Kalan bonus geliştirme otomatik testlerdir.
 
 ---
 
@@ -41,6 +41,7 @@ Proje kapsamında gerçek ödeme sistemi veya kullanıcı üyeliği bulunmamakta
 - React Router
 - Fetch API
 - JSON Server
+- Web Storage API (`localStorage`)
 - Git / GitHub
 - npm
 
@@ -132,14 +133,18 @@ http://localhost:5173
 - API response ve HTTP hata durumlarının yönetilmesi
 - Ürün detayının ID üzerinden API'den alınması
 - API'den gelen ürün ve kategori verilerinin TypeScript ile modellenmesi
+- Sepetin `localStorage` içerisinde saklanması
+- Uygulama açıldığında sepetin `localStorage` üzerinden geri yüklenmesi
+- Sepet değişikliklerinin otomatik olarak `localStorage` ile senkronize edilmesi
+- Sayfa yenilemelerinde sepet içeriğinin ve ürün adetlerinin korunması
 
-Zorunlu proje fazları ve Bonus API Integration tamamlanmıştır. `localStorage` ve otomatik testler sıradaki bonus geliştirmelerdir.
+Zorunlu proje fazları, Bonus API Integration ve Bonus LocalStorage tamamlanmıştır. Otomatik testler kalan bonus geliştirmedir.
 
 ---
 
 ## Kod Kalitesi Kontrolleri
 
-Faz 4 ve Bonus API Integration sonunda aşağıdaki kontroller uygulanmıştır:
+Tüm fazlar, API Integration ve LocalStorage sonunda aşağıdaki kontroller uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
@@ -149,7 +154,7 @@ Faz 4 ve Bonus API Integration sonunda aşağıdaki kontroller uygulanmıştır:
 
 ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
 
-Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir. Bonus API Integration sırasında API açık / kapalı senaryoları, ürün ve kategori endpoint'leri, 404 ürün durumu ve hata sonrası yeniden deneme akışı da manuel olarak test edilmiştir.
+Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir. Bonus API Integration sırasında API açık / kapalı senaryoları, ürün ve kategori endpoint'leri, 404 ürün durumu ve hata sonrası yeniden deneme akışı manuel olarak test edilmiştir. Bonus LocalStorage sırasında sepete ürün ekleme, adet değiştirme ve sayfa yenileme sonrasında sepet verilerinin korunması da manuel olarak doğrulanmıştır.
 
 ---
 
@@ -416,7 +421,6 @@ Faz 3'te gerçek sepet yönetimi Context API kullanılarak uygulama genelinde me
 - `clearCart()` ile sepetin tamamını temizleme işlemi eklendi.
 - Cart sayfası responsive hale getirildi.
 
-> **Not:** Sepetin sayfa yenilendiğinde korunmasını sağlayan `localStorage` entegrasyonu proje dokümanında bonus olarak belirtildiği için eklenmemiştir.
 
 ### Faz 3 Kontrolleri
 
@@ -674,6 +678,108 @@ Kontroller başarıyla tamamlandı ve çalışma ağacının temiz olduğu doğr
 
 ---
 
+## Bonus — LocalStorage
+
+Bonus LocalStorage kapsamında mevcut sepet yönetimi değiştirilmeden sepet verilerinin browser `localStorage` alanında kalıcı olarak tutulması sağlandı. Bu geliştirme ile kullanıcı sayfayı yenilediğinde veya uygulamayı tekrar açtığında mevcut sepet içeriği korunmaktadır.
+
+### Yapılanlar
+
+- `CartProvider.tsx` içerisinde sepet verileri için merkezi bir storage key tanımlandı.
+- Sepet state'inin başlangıç değeri `localStorage` içerisindeki mevcut sepet verisinden okunacak şekilde güncellendi.
+- `localStorage` içerisinde kayıtlı sepet bulunmadığında mevcut boş sepet davranışı korunarak başlangıç değeri `[]` olarak kullanılmaya devam edildi.
+- Kayıtlı JSON sepet verisi `CartItem[]` yapısına dönüştürülerek mevcut Context API state'i ile kullanıldı.
+- `cartItems` değişiklikleri `useEffect` ile izlenerek her sepet güncellemesinde `localStorage` otomatik olarak güncellenir hale getirildi.
+- Mevcut `addToCart`, `increaseQuantity`, `decreaseQuantity`, `removeFromCart` ve `clearCart` fonksiyonlarının çalışma mantığı değiştirilmedi.
+- Header'daki toplam ürün sayısı ve Cart sayfasındaki toplam fiyat hesaplamaları mevcut Context state'i üzerinden çalışmaya devam etti.
+- Sepete ürün ekleme, adet artırma / azaltma, ürün silme ve sepeti temizleme işlemleri sonrasında güncel sepet state'inin storage'a yazılması sağlandı.
+- Sayfa yenileme sonrasında ürünlerin, ürün adetlerinin ve Header sepet sayacının korunması manuel olarak test edildi.
+
+### LocalStorage Anahtarı
+
+Sepet verileri aşağıdaki storage key ile saklanmaktadır:
+
+```ts
+const CART_STORAGE_KEY = 'cart'
+```
+
+Browser storage içerisindeki değer JSON formatında tutulmaktadır.
+
+### Uygulama Açılışında Sepetin Yüklenmesi
+
+`useState` için lazy initializer kullanılarak `localStorage` yalnızca başlangıç state'i oluşturulurken okunmaktadır:
+
+```ts
+const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+  const storedCart = localStorage.getItem(CART_STORAGE_KEY)
+
+  if (!storedCart) {
+    return []
+  }
+
+  return JSON.parse(storedCart) as CartItem[]
+})
+```
+
+Bu akış:
+
+```text
+uygulama açılır
+↓
+localStorage kontrol edilir
+↓
+kayıtlı cart varsa okunur
+↓
+CartContext başlangıç state'i oluşturulur
+```
+
+şeklinde çalışmaktadır.
+
+### Sepet Değişikliklerinin Kaydedilmesi
+
+Sepet state'i her değiştiğinde güncel değer `localStorage` alanına yazılmaktadır:
+
+```ts
+useEffect(() => {
+  localStorage.setItem(
+    CART_STORAGE_KEY,
+    JSON.stringify(cartItems),
+  )
+}, [cartItems])
+```
+
+Bu nedenle aşağıdaki mevcut sepet işlemleri storage'a otomatik olarak yansır:
+
+- ürünü sepete ekleme,
+- aynı ürünün quantity değerini artırma,
+- ürün adedini artırma,
+- ürün adedini azaltma,
+- ürünü sepetten kaldırma,
+- sepetin tamamını temizleme.
+
+### Sayfa Yenileme Davranışı
+
+LocalStorage entegrasyonu öncesinde Cart Context state'i sayfa yenilendiğinde başlangıç değerine dönüyordu.
+
+Bonus sonrasında akış:
+
+```text
+sepete ürün eklenir
+↓
+cartItems güncellenir
+↓
+localStorage güncellenir
+↓
+sayfa yenilenir
+↓
+cart localStorage'dan tekrar okunur
+↓
+sepet içeriği korunur
+```
+
+şeklinde çalışmaktadır.
+
+---
+
 ## TypeScript Kullanımı
 
 Projede TypeScript aktif olarak kullanılmaktadır.
@@ -893,6 +999,19 @@ Faz 4 kabul kriterlerinin tamamı karşılanmıştır.
 
 Bonus API Integration tamamlanmıştır.
 
+## Bonus LocalStorage
+
+- [x] Sepet `localStorage` içerisine kaydediliyor.
+- [x] Uygulama açıldığında kayıtlı sepet `localStorage` üzerinden okunuyor.
+- [x] Sepet değiştiğinde `localStorage` otomatik olarak güncelleniyor.
+- [x] Sayfa yenilendiğinde sepet içeriği korunuyor.
+- [x] Ürün quantity değerleri sayfa yenileme sonrasında korunuyor.
+- [x] Header'daki toplam ürün adedi kayıtlı sepet state'i ile doğru gösteriliyor.
+- [x] Mevcut sepete ekleme, adet artırma / azaltma, silme ve temizleme davranışları korunuyor.
+- [x] `npm run lint`, `npm run build` ve `git diff --check` kontrolleri başarıyla tamamlandı.
+
+Bonus LocalStorage tamamlanmıştır.
+
 ---
 
 ## Bilinen Eksikler / Bonus Geliştirmeler
@@ -902,10 +1021,10 @@ Projenin zorunlu Faz 0–4 gereksinimleri tamamlanmıştır.
 Bonus geliştirmelerin mevcut durumu:
 
 - [x] API Integration — JSON Server, `fetch`, API response yönetimi, loading / error handling ve TypeScript API modelleme tamamlandı.
-- [ ] `localStorage` ile sepetin sayfa yenilemelerinde korunması.
+- [x] LocalStorage — sepetin kaydedilmesi, uygulama açılışında geri yüklenmesi ve sepet değişikliklerinde storage'ın güncellenmesi tamamlandı.
 - [ ] ProductCard ve sepet davranışları için otomatik testler.
 
-Bonus API Integration tamamlanmıştır. Kalan bonus geliştirmeler `localStorage` ve otomatik testlerdir.
+Bonus API Integration ve Bonus LocalStorage tamamlanmıştır. Kalan bonus geliştirme otomatik testlerdir.
 
 ---
 
@@ -922,6 +1041,7 @@ feature/phase-2-routing-product-detail
 feature/phase-3-cart-management
 feature/phase-4-user-experience
 feature/api-integration
+feature/local-storage
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
@@ -929,3 +1049,5 @@ Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'
 Faz 4 geliştirmeleri `feature/phase-4-user-experience` branch'i üzerinde loading, error, empty state, katalog / kategori güncellemeleri ve responsive iyileştirmeler ayrı mantıksal commit'ler halinde geliştirilmiştir.
 
 Bonus API Integration geliştirmeleri `feature/api-integration` branch'i üzerinde JSON Server altyapısı, ürün detay API entegrasyonu ve kategori API entegrasyonu ayrı mantıksal commit'ler halinde geliştirilmiştir.
+
+Bonus LocalStorage geliştirmeleri `feature/local-storage` branch'i üzerinde mevcut Cart Context yapısı korunarak sepetin browser storage'a kaydedilmesi ve uygulama açılışında geri yüklenmesi şeklinde geliştirilmiştir.
