@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
 
+import { useCart } from '../../context/CartContext'
 import { CartProvider } from '../../context/CartProvider'
 import type { Product } from '../../types/product'
 import ProductCard from './ProductCard'
@@ -14,6 +16,12 @@ const product: Product = {
   image: '/images/products/classic-espresso.png',
   category: 'Espresso',
   stock: 20,
+}
+
+function CartItemCount() {
+  const { totalItemCount } = useCart()
+
+  return <p>Sepet adedi: {totalItemCount}</p>
 }
 
 describe('ProductCard', () => {
@@ -55,6 +63,33 @@ describe('ProductCard', () => {
       screen.getByRole('button', {
         name: 'Sepete Ekle',
       }),
+    ).toBeInTheDocument()
+  })
+
+  it('ürünü sepete ekler', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <MemoryRouter>
+        <CartProvider>
+          <ProductCard product={product} />
+          <CartItemCount />
+        </CartProvider>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByText('Sepet adedi: 0'),
+    ).toBeInTheDocument()
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Sepete Ekle',
+      }),
+    )
+
+    expect(
+      screen.getByText('Sepet adedi: 1'),
     ).toBeInTheDocument()
   })
 })
