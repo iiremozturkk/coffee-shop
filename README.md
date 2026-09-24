@@ -4,9 +4,9 @@ Coffee Shop, React ve TypeScript kullanılarak geliştirilen bir kahve e-ticaret
 
 Projenin amacı; component yapısı, props ve state kullanımı, ürün listeleme, filtreleme, sıralama ve responsive tasarım gibi temel frontend konularını gerçek bir e-ticaret senaryosu üzerinde uygulamaktır.
 
-Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır. Bonus API Integration kapsamında ürün ve kategori verileri JSON Server üzerinden sunulan API endpoint'lerine bağlanmıştır. Bonus LocalStorage kapsamında sepet verileri browser `localStorage` alanında saklanarak sayfa yenilemelerinde korunur hale getirilmiştir.
+Faz 0 ile React ve TypeScript proje altyapısı oluşturulmuş, temel component yapısı, props, state ve event handling konuları uygulanmıştır. Faz 1 ile ana sayfa, responsive Header, Hero alanı, kategori kartları, ürün kartları, ürün listeleme, kategori filtreleme ve sıralama özellikleri geliştirilmiştir. Faz 2 ile React Router, sayfalar arası navigasyon, ürün detay sayfası ve kategori route'ları projeye eklenmiştir. Faz 3 ile gerçek sepet yönetimi ve merkezi sepet state'i tamamlanmıştır. Faz 4 ile loading, error, empty state senaryoları ve son responsive kullanıcı deneyimi kontrolleri tamamlanmıştır. Bonus API Integration kapsamında ürün ve kategori verileri JSON Server üzerinden sunulan API endpoint'lerine bağlanmıştır. Bonus LocalStorage kapsamında sepet verileri browser localStorage alanında saklanarak sayfa yenilemelerinde korunur hale getirilmiştir. Bonus Automated Tests kapsamında ProductCard ve temel sepet davranışları için otomatik testler eklenmiştir.
 
-> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları, Bonus API Integration ve Bonus LocalStorage tamamlanmış durumdadır. Kalan bonus geliştirme otomatik testlerdir.
+> **Mevcut durum:** Faz 0, Faz 1, Faz 2, Faz 3 ve Faz 4 tamamlandı. Projenin zorunlu fazları ile Bonus API Integration, Bonus LocalStorage ve Bonus Automated Tests tamamlanmış durumdadır.
 
 ---
 
@@ -42,6 +42,12 @@ Proje kapsamında gerçek ödeme sistemi veya kullanıcı üyeliği bulunmamakta
 - Fetch API
 - JSON Server
 - Web Storage API (`localStorage`)
+- Vitest
+- React Testing Library
+- Testing Library DOM
+- Testing Library `jest-dom`
+- Testing Library `user-event`
+- jsdom
 - Git / GitHub
 - npm
 
@@ -96,6 +102,18 @@ http://localhost:5173
 
 ---
 
+## Testleri Çalıştırma
+
+Otomatik testleri tek sefer çalıştırmak için:
+
+```bash
+npm test -- --run
+```
+
+Mevcut bonus test paketi iki test dosyasında toplam 6 test içermektedir.
+
+---
+
 ## Özellikler
 
 Şu ana kadar tamamlanan özellikler:
@@ -137,24 +155,30 @@ http://localhost:5173
 - Uygulama açıldığında sepetin `localStorage` üzerinden geri yüklenmesi
 - Sepet değişikliklerinin otomatik olarak `localStorage` ile senkronize edilmesi
 - Sayfa yenilemelerinde sepet içeriğinin ve ürün adetlerinin korunması
+- ProductCard render davranışının otomatik test edilmesi
+- Sepete ürün ekleme davranışının otomatik test edilmesi
+- Sepet quantity artırma / azaltma davranışlarının otomatik test edilmesi
+- Sepetten ürün silme davranışının otomatik test edilmesi
+- Sepet toplam fiyat hesaplamasının otomatik test edilmesi
 
-Zorunlu proje fazları, Bonus API Integration ve Bonus LocalStorage tamamlanmıştır. Otomatik testler kalan bonus geliştirmedir.
+Zorunlu proje fazları ve tüm bonus geliştirmeler tamamlanmıştır.
 
 ---
 
 ## Kod Kalitesi Kontrolleri
 
-Tüm fazlar, API Integration ve LocalStorage sonunda aşağıdaki kontroller uygulanmıştır:
+Tüm fazlar ve bonus geliştirmeler sonunda aşağıdaki kontroller uygulanmıştır:
 
 | Kontrol | Komut |
 | --- | --- |
 | ESLint | `npm run lint` |
 | Production build | `npm run build` |
 | Whitespace / diff kontrolü | `git diff --check` |
+| Automated tests | `npm test -- --run` |
 
-ESLint, production build ve whitespace / diff kontrolleri başarıyla tamamlanmıştır.
+ESLint, production build, whitespace / diff ve automated test kontrolleri başarıyla tamamlanmıştır.
 
-Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir. Bonus API Integration sırasında API açık / kapalı senaryoları, ürün ve kategori endpoint'leri, 404 ürün durumu ve hata sonrası yeniden deneme akışı manuel olarak test edilmiştir. Bonus LocalStorage sırasında sepete ürün ekleme, adet değiştirme ve sayfa yenileme sonrasında sepet verilerinin korunması da manuel olarak doğrulanmıştır.
+Ayrıca temel kullanıcı akışı desktop, tablet ve mobile görünümlerde manuel olarak test edilmiş ve browser console üzerinde gereksiz error / warning bulunmadığı kontrol edilmiştir. Bonus API Integration sırasında API açık / kapalı senaryoları, ürün ve kategori endpoint'leri, 404 ürün durumu ve hata sonrası yeniden deneme akışı manuel olarak test edilmiştir. Bonus LocalStorage sırasında sepete ürün ekleme, adet değiştirme ve sayfa yenileme sonrasında sepet verilerinin korunması manuel olarak doğrulanmıştır. Bonus Automated Tests sonunda 2 test dosyasında toplam 6 test başarıyla çalıştırılmıştır.
 
 ---
 
@@ -780,6 +804,143 @@ sepet içeriği korunur
 
 ---
 
+## Bonus — Automated Tests
+
+Bonus Automated Tests kapsamında proje dokümanında belirtilen temel component ve sepet davranışları için otomatik testler eklendi.
+
+### Test Altyapısı
+
+Test ortamı için aşağıdaki development araçları projeye eklendi:
+
+- Vitest
+- React Testing Library
+- Testing Library DOM
+- Testing Library `jest-dom`
+- Testing Library `user-event`
+- jsdom
+
+`package.json` içerisine test script'i eklendi:
+
+```json
+"test": "vitest"
+```
+
+`vite.config.ts` içerisinde Vitest için `jsdom` ortamı ve ortak setup dosyası tanımlandı:
+
+```ts
+test: {
+  environment: 'jsdom',
+  setupFiles: './src/test/setup.ts',
+}
+```
+
+`src/test/setup.ts` içerisinde `jest-dom` matcher'ları aktif edildi ve testler arasında DOM izolasyonu için cleanup uygulandı:
+
+```ts
+import '@testing-library/jest-dom/vitest'
+import { cleanup } from '@testing-library/react'
+import { afterEach } from 'vitest'
+
+afterEach(() => {
+  cleanup()
+})
+```
+
+### ProductCard Testleri
+
+`src/components/ProductCard/ProductCard.test.tsx` içerisinde iki test bulunmaktadır.
+
+#### ProductCard Render Testi
+
+ProductCard gerçek component yapısı ile `MemoryRouter` ve `CartProvider` içerisinde render edilmiştir.
+
+Aşağıdaki bilgilerin DOM içerisinde yer aldığı doğrulanmaktadır:
+
+- ürün görseli,
+- ürün adı,
+- kategori,
+- fiyat,
+- `Ürünü İncele` butonu,
+- `Sepete Ekle` butonu.
+
+Bu test ProductCard'ın verilen ürün verisini doğru şekilde render ettiğini doğrular.
+
+#### Sepete Ürün Ekleme Testi
+
+Gerçek `ProductCard` üzerindeki `Sepete Ekle` butonuna `user-event` ile tıklanır.
+
+Test akışı:
+
+```text
+başlangıç sepet adedi: 0
+↓
+Sepete Ekle butonuna tıklanır
+↓
+CartProvider state'i güncellenir
+↓
+sepet adedi: 1
+```
+
+Bu test ProductCard ile Cart Context arasındaki gerçek sepete ekleme akışını doğrular.
+
+### CartProvider Testleri
+
+`src/context/CartProvider.test.tsx` içerisinde gerçek `CartProvider` state ve fonksiyonları test edilmektedir.
+
+Test yardımcı component'i yalnızca test ortamında aşağıdaki Context değerlerine erişmek için kullanılmaktadır:
+
+- `addToCart`
+- `increaseQuantity`
+- `decreaseQuantity`
+- `removeFromCart`
+- `totalPrice`
+
+Uygulamanın production component yapısına yeni bir özellik eklenmemiştir.
+
+#### Quantity Artırma Testi
+
+Testte ürün önce sepete eklenir ve başlangıç quantity değeri `1` olarak doğrulanır. Ardından `increaseQuantity()` çalıştırılarak `1 → 2` değişimi kontrol edilir.
+
+#### Quantity Azaltma Testi
+
+Ürün sepete eklenip quantity değeri `2` seviyesine çıkarıldıktan sonra `decreaseQuantity()` çalıştırılır. Beklenen sonuç `2 → 1` olarak doğrulanır.
+
+#### Ürün Silme Testi
+
+Ürün sepete eklendikten sonra sepette bulunduğu doğrulanır. `removeFromCart()` çalıştırıldığında ürünün artık sepet state'i içerisinde bulunmadığı kontrol edilir.
+
+#### Toplam Fiyat Hesaplama Testi
+
+Test ürünü `120 TL` fiyat ile sepete eklenir ve quantity değeri `2` yapılır. Beklenen toplam `240 TL` olarak doğrulanır.
+
+### Test Sonucu
+
+Tüm bonus testleri aşağıdaki komutla çalıştırılmıştır:
+
+```bash
+npm test -- --run
+```
+
+Son test sonucu:
+
+```text
+Test Files  2 passed (2)
+Tests       6 passed (6)
+```
+
+### Bonus Automated Tests Kontrolleri
+
+Testlerin ardından aşağıdaki kontroller de tekrar uygulanmıştır:
+
+```bash
+npm test -- --run
+npm run lint
+npm run build
+git diff --check
+```
+
+---
+
 ## TypeScript Kullanımı
 
 Projede TypeScript aktif olarak kullanılmaktadır.
@@ -836,7 +997,8 @@ src/
 │
 ├── context/
 │   ├── CartContext.ts
-│   └── CartProvider.tsx
+│   ├── CartProvider.tsx
+│   └── CartProvider.test.tsx
 │
 ├── services/
 │   └── productService.ts
@@ -844,6 +1006,9 @@ src/
 ├── data/
 │   ├── categories.ts
 │   └── products.ts
+│
+├── test/
+│   └── setup.ts
 │
 ├── types/
 │   ├── cart.ts
@@ -1022,9 +1187,9 @@ Bonus geliştirmelerin mevcut durumu:
 
 - [x] API Integration — JSON Server, `fetch`, API response yönetimi, loading / error handling ve TypeScript API modelleme tamamlandı.
 - [x] LocalStorage — sepetin kaydedilmesi, uygulama açılışında geri yüklenmesi ve sepet değişikliklerinde storage'ın güncellenmesi tamamlandı.
-- [ ] ProductCard ve sepet davranışları için otomatik testler.
+- [x] Automated Tests — ProductCard render, sepete ürün ekleme, quantity artırma / azaltma, ürün silme ve toplam fiyat hesaplama testleri tamamlandı.
 
-Bonus API Integration ve Bonus LocalStorage tamamlanmıştır. Kalan bonus geliştirme otomatik testlerdir.
+Bonus API Integration, Bonus LocalStorage ve Bonus Automated Tests tamamlanmıştır. Proje dokümanındaki bonus geliştirmelerin tamamı uygulanmıştır.
 
 ---
 
@@ -1042,6 +1207,7 @@ feature/phase-3-cart-management
 feature/phase-4-user-experience
 feature/api-integration
 feature/local-storage
+feature/automated-tests
 ```
 
 Değişiklikler tek bir büyük commit yerine mantıksal ve anlaşılır commit'ler halinde tutulmaktadır.
@@ -1051,3 +1217,5 @@ Faz 4 geliştirmeleri `feature/phase-4-user-experience` branch'i üzerinde loadi
 Bonus API Integration geliştirmeleri `feature/api-integration` branch'i üzerinde JSON Server altyapısı, ürün detay API entegrasyonu ve kategori API entegrasyonu ayrı mantıksal commit'ler halinde geliştirilmiştir.
 
 Bonus LocalStorage geliştirmeleri `feature/local-storage` branch'i üzerinde mevcut Cart Context yapısı korunarak sepetin browser storage'a kaydedilmesi ve uygulama açılışında geri yüklenmesi şeklinde geliştirilmiştir.
+
+Bonus Automated Tests geliştirmeleri `feature/automated-tests` branch'i üzerinde test altyapısı, ProductCard testleri ve CartProvider testleri mantıksal commit'ler halinde geliştirilmiştir.
