@@ -23,6 +23,8 @@ function CartTestControls() {
     addToCart,
     increaseQuantity,
     decreaseQuantity,
+    removeFromCart,
+    totalPrice,
   } = useCart()
 
   const cartItem = cartItems.find(
@@ -34,6 +36,10 @@ function CartTestControls() {
   return (
     <>
       <p>Adet: {quantity}</p>
+      <p>Toplam: {totalPrice} TL</p>
+      <p>
+        Sepette: {cartItem ? 'Var' : 'Yok'}
+      </p>
 
       <button
         type="button"
@@ -54,6 +60,13 @@ function CartTestControls() {
         onClick={() => decreaseQuantity(product.id)}
       >
         Adet Azalt
+      </button>
+
+      <button
+        type="button"
+        onClick={() => removeFromCart(product.id)}
+      >
+        Ürünü Sil
       </button>
     </>
   )
@@ -120,5 +133,61 @@ describe('CartProvider', () => {
     )
 
     expect(screen.getByText('Adet: 1')).toBeInTheDocument()
+  })
+
+  it('ürünü sepetten siler', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CartProvider>
+        <CartTestControls />
+      </CartProvider>,
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Ürünü Ekle',
+      }),
+    )
+
+    expect(
+      screen.getByText('Sepette: Var'),
+    ).toBeInTheDocument()
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Ürünü Sil',
+      }),
+    )
+
+    expect(
+      screen.getByText('Sepette: Yok'),
+    ).toBeInTheDocument()
+  })
+
+  it('sepet toplam fiyatını doğru hesaplar', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <CartProvider>
+        <CartTestControls />
+      </CartProvider>,
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Ürünü Ekle',
+      }),
+    )
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Adet Artır',
+      }),
+    )
+
+    expect(
+      screen.getByText('Toplam: 240 TL'),
+    ).toBeInTheDocument()
   })
 })
